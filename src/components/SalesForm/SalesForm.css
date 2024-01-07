@@ -1,0 +1,66 @@
+/* SalesForm.css */
+
+/* Container styles */
+.sales-form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #3498db; /* Primary shade of blue for borders */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header styles */
+  .sales-form-header {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #3498db; /* Primary shade of blue for text */
+  }
+  
+  /* Form styles */
+  .sales-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Form input styles */
+  .form-label {
+    margin-bottom: 8px;
+    color: #2980b9; /* Darker shade of blue for labels */
+  }
+  
+  .form-select,
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #3498db; /* Primary shade of blue for input borders */
+    border-radius: 4px;
+  }
+  
+  /* Button styles */
+  .submit-button {
+    background-color: #3498db; /* Primary shade of blue for button background */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-button:hover {
+    background-color: #2980b9; /* Darker shade of blue on hover */
+  }
+  
+  /* Result styles */
+  .result-container {
+    margin-top: 20px;
+  }
+  
+  .result-label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #3498db; /* Primary shade of blue for result label */
+  }
+  
