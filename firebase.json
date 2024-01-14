@@ -4,6 +4,7 @@
     "indexes": "firestoreindexes"
   },
   "hosting": {
+    "site": "boluwatife",
     "public": "public",
     "ignore": [
       "firebase.json",
@@ -16,5 +17,8 @@
         "destination": "/index.html"
       }
     ]
+  },
+  "database": {
+    "rules": "DatabaseRules"
   }
 }
