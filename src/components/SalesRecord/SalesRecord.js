@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import {db} from '../../firebase.js'
 
 
@@ -19,13 +19,13 @@ export const SalesRecord = () => {
       try {
         // Temporary array to store fetched data
         const response = [];
-
+  
         // Reference to the Firestore collection
         const collectionPath = collection(db, 'SalesRecord');
-
+  
         // Fetch data from the Firestore collection
         const querySnapshot = await getDocs(collectionPath);
-
+  
         // Loop through each document and extract data
         querySnapshot.forEach((doc) => {
           response.push({
@@ -33,22 +33,44 @@ export const SalesRecord = () => {
             ...doc.data(),
           });
         });
-
+  
         // Set the state with the fetched data
         setSalesRecords(response);
-
+  
         // Set loading to false once data is fetched
         setLoading(false);
+  
+        // Example: Add a new document to the SalesRecord collection
+        await setDoc(doc(collectionPath, "nFwMNRZK72nFo2snlaPw"), {
+          brand: "ACEFloat",
+          size: "7mm",
+          quantity: 4,
+          metric: "Bag",
+          unitPrice: 23987,
+          totalPrice: 34989,
+          date: new Date().toISOString(), // Use the current date
+          remark:"hey there"
+        });
+  
+        // Fetch the data again after adding the new document
+        const updatedQuerySnapshot = await getDocs(collectionPath);
+  
+        // Update the state with the latest data
+        const updatedResponse = updatedQuerySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setSalesRecords(updatedResponse);
       } catch (error) {
         // Handle any errors that occur during data fetching
-        console.error("Error fetching data:", error);
-        setError("An error occurred while fetching data.");
-
+        console.error("Error fetching or updating data:", error);
+        setError("An error occurred while fetching or updating data.");
+  
         // Set loading to false in case of an error
         setLoading(false);
       }
     };
-
+  
     // Call the fetchData function when the component mounts
     fetchData();
   }, []); // Empty dependency array means this effect runs once on mount
