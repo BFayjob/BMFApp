@@ -83,6 +83,7 @@ export const SalesForm = () => {
     setRemarks(e.target.value);
   };
 
+  // Inside handleSubmit function in SalesForm.js
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -90,6 +91,8 @@ export const SalesForm = () => {
     
     if (shouldSubmit) {
       console.log('Form submitted:', { brand, size, quantity, metric, unitPrice, totalPrice, remarks });
+
+      // ... Other code to store data in Firestore or your database ...
 
       setBrand('');
       setSize('');
@@ -100,6 +103,7 @@ export const SalesForm = () => {
       setRemarks('');
     }
   };
+
 
   return (
     <div>

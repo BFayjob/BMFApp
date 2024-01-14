@@ -4,7 +4,7 @@ import "./App.css";
 import { NavBar } from './components/NavBar/NavBar';
 import { Route, Routes } from 'react-router-dom';
 import { SalesForm } from './components/SalesForm/SalesForm';
-import SalesRecord from './components/SalesRecord/SalesRecord'; // Adjust the path based on your project structure
+import {SalesRecord} from './components/SalesRecord/SalesRecord'; // Adjust the path based on your project structure
 
 const App = () => {
   return( 

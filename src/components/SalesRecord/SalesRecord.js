@@ -1,27 +1,69 @@
-// SalesRecord.js
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import {db} from '../../firebase.js'
 
-const SalesRecord = () => {
+
+export const SalesRecord = () => {
+  // State for holding sales records data
   const [salesRecords, setSalesRecords] = useState([]);
 
+  // Loading state to track whether data is being fetched
+  const [loading, setLoading] = useState(true);
+
+  // Error state to handle any potential errors during data fetching
+  const [error, setError] = useState(null);
+
+  // useEffect hook to fetch data when the component mounts
   useEffect(() => {
-    // Example: Fetch data from a Firestore collection
     const fetchData = async () => {
-      // Replace 'yourCollection' with the actual Firestore collection name
-      const response = await firestore.collection('SalesRecord').get();
+      try {
+        // Temporary array to store fetched data
+        const response = [];
 
-      // Extract data from the response
-      const data = response.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+        // Reference to the Firestore collection
+        const collectionPath = collection(db, 'SalesRecord');
 
-      setSalesRecords(data);
+        // Fetch data from the Firestore collection
+        const querySnapshot = await getDocs(collectionPath);
+
+        // Loop through each document and extract data
+        querySnapshot.forEach((doc) => {
+          response.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+
+        // Set the state with the fetched data
+        setSalesRecords(response);
+
+        // Set loading to false once data is fetched
+        setLoading(false);
+      } catch (error) {
+        // Handle any errors that occur during data fetching
+        console.error("Error fetching data:", error);
+        setError("An error occurred while fetching data.");
+
+        // Set loading to false in case of an error
+        setLoading(false);
+      }
     };
 
+    // Call the fetchData function when the component mounts
     fetchData();
-  }, []);
+  }, []); // Empty dependency array means this effect runs once on mount
 
+  // Loading state: Show a loading message while data is being fetched
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // Error state: Display an error message if data fetching encounters an issue
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
+
+  // Render the component with the fetched data
   return (
     <div>
       <h2>Sales Record</h2>
@@ -42,7 +84,10 @@ const SalesRecord = () => {
           {salesRecords.map((record) => (
             <tr key={record.id}>
               <td>{record.id}</td>
-              <td>{record.date && new Date(record.date).toLocaleDateString()}</td> {/* Display date */}
+              <td>
+                {record.date && new Date(record.date).toLocaleDateString()}
+              </td>{" "}
+              {/* Display date */}
               <td>{record.brand}</td>
               <td>{record.size}</td>
               <td>{record.metric}</td>
@@ -57,4 +102,4 @@ const SalesRecord = () => {
   );
 };
 
-export default SalesRecord;
+export default SalesRecord;
