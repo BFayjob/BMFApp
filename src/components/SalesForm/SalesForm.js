@@ -1,36 +1,68 @@
 // SalesForm.js
-import React, { useState, useEffect } from 'react';
-import './SalesForm.css';
+import React, { useState, useEffect } from "react";
+import "./SalesForm.css";
+import { addDoc, collectionPath } from "../../firebase";
 
 export const SalesForm = () => {
-  const [brand, setBrand] = useState('');
-  const [size, setSize] = useState('');
-  const [quantity, setQuantity] = useState('');
-  const [metric, setMetric] = useState('Bag');
+  const [brand, setBrand] = useState("");
+  const [size, setSize] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [metric, setMetric] = useState("Bag");
   const [unitPrice, setUnitPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [remarks, setRemarks] = useState('');
+  const [remarks, setRemarks] = useState("");
 
-  const brands = ['Bluecrown', 'Ecofloat', 'Coppens', 'Alleraqua', 'Vital', 'Aqualis', 'Alpha', 'Ace'];
+  const brands = [
+    "Bluecrown",
+    "Ecofloat",
+    "Coppens",
+    "Alleraqua",
+    "Vital",
+    "Aqualis",
+    "Alpha",
+    "Ace",
+  ];
   const sizesByBrand = {
-    Bluecrown: ['2mm', '3mm', '4mm', '6mm', '9mm'],
-    Ecofloat: ['3mm', '4mm', '6mm', '9mm'],
-    Alleraqua: ['0.2mm', '0.4mm', '0.5mm', '0.9mm', '1.3mm', '2mm', '3mm', '4mm'],
-    Coppens: ['0.2mm', '0.3mm', '0.5mm', '0.8mm', '1.2mm', '1.5mm', '2mm (45%)', '2mm (42%)'],
-    Vital: ['2mm', '3mm', '4mm', '6mm', '9mm'],
-    Aqualis: ['2mm', '3mm', '4mm'],
-    Alpha: ['4mm', '6mm', '8mm'],
-    Ace: ['3mm', '4mm', '6mm', '8mm'],
+    Bluecrown: ["2mm", "3mm", "4mm", "6mm", "9mm"],
+    Ecofloat: ["3mm", "4mm", "6mm", "9mm"],
+    Alleraqua: [
+      "0.2mm",
+      "0.4mm",
+      "0.5mm",
+      "0.9mm",
+      "1.3mm",
+      "2mm",
+      "3mm",
+      "4mm",
+    ],
+    Coppens: [
+      "0.2mm",
+      "0.3mm",
+      "0.5mm",
+      "0.8mm",
+      "1.2mm",
+      "1.5mm",
+      "2mm (45%)",
+      "2mm (42%)",
+    ],
+    Vital: ["2mm", "3mm", "4mm", "6mm", "9mm"],
+    Aqualis: ["2mm", "3mm", "4mm"],
+    Alpha: ["4mm", "6mm", "8mm"],
+    Ace: ["3mm", "4mm", "6mm", "8mm"],
   };
 
   useEffect(() => {
     const fetchUnitPrice = async () => {
       try {
         // Simulate fetching unit price from a database based on brand, size, and metric
-        const unitPriceFromDB = await fetchUnitPriceFromDatabase(brand, size, metric);
+        const unitPriceFromDB = await fetchUnitPriceFromDatabase(
+          brand,
+          size,
+          metric
+        );
         setUnitPrice(unitPriceFromDB);
       } catch (error) {
-        console.error('Error fetching unit price:', error);
+        console.error("Error fetching unit price:", error);
       }
     };
 
@@ -53,7 +85,7 @@ export const SalesForm = () => {
 
   const handleBrandChange = (e) => {
     setBrand(e.target.value);
-    setSize('');
+    setSize("");
   };
 
   const handleSizeChange = (e) => {
@@ -63,7 +95,7 @@ export const SalesForm = () => {
   const handleMetricChange = (e) => {
     setMetric(e.target.value);
     // Clear quantity when changing metric to avoid conflicts
-    setQuantity('');
+    setQuantity("");
 
     // Fetch unit price based on the selected metric
     fetchUnitPrice();
@@ -72,10 +104,14 @@ export const SalesForm = () => {
   const fetchUnitPrice = async () => {
     try {
       // Simulate fetching unit price from a database based on brand, size, and metric
-      const unitPriceFromDB = await fetchUnitPriceFromDatabase(brand, size, metric);
+      const unitPriceFromDB = await fetchUnitPriceFromDatabase(
+        brand,
+        size,
+        metric
+      );
       setUnitPrice(unitPriceFromDB);
     } catch (error) {
-      console.error('Error fetching unit price:', error);
+      console.error("Error fetching unit price:", error);
     }
   };
 
@@ -84,26 +120,38 @@ export const SalesForm = () => {
   };
 
   // Inside handleSubmit function in SalesForm.js
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const shouldSubmit = window.confirm('Are you sure you want to submit this sale?');
-    
-    if (shouldSubmit) {
-      console.log('Form submitted:', { brand, size, quantity, metric, unitPrice, totalPrice, remarks });
+    const shouldSubmit = window.confirm(
+      "Are you sure you want to submit this sale?"
+    );
 
+    if (shouldSubmit) {
       // ... Other code to store data in Firestore or your database ...
 
-      setBrand('');
-      setSize('');
-      setQuantity('');
-      setMetric('Bag');
+      
+
+      await addDoc(collectionPath, {
+        brand,
+        size,
+        quantity,
+        metric,
+        unitPrice,
+        totalPrice,
+        date: new Date().toISOString(), // Use the current date
+        remarks,
+      });
+
+      setBrand("");
+      setSize("");
+      setQuantity("");
+      setMetric("Bag");
       setUnitPrice(0);
       setTotalPrice(0);
-      setRemarks('');
+      setRemarks("");
     }
   };
-
 
   return (
     <div>
@@ -114,7 +162,9 @@ export const SalesForm = () => {
           <select value={brand} onChange={handleBrandChange}>
             <option value="">Select Brand</option>
             {brands.map((brandOption) => (
-              <option key={brandOption} value={brandOption}>{brandOption}</option>
+              <option key={brandOption} value={brandOption}>
+                {brandOption}
+              </option>
             ))}
           </select>
         </label>
@@ -125,7 +175,9 @@ export const SalesForm = () => {
             <select value={size} onChange={handleSizeChange}>
               <option value="">Select Size</option>
               {sizesByBrand[brand].map((sizeOption) => (
-                <option key={sizeOption} value={sizeOption}>{sizeOption}</option>
+                <option key={sizeOption} value={sizeOption}>
+                  {sizeOption}
+                </option>
               ))}
             </select>
           </label>
@@ -159,14 +211,14 @@ export const SalesForm = () => {
         </div>
 
         <label>
-        Remarks:
-        <input
-          type="text"
-          value={remarks}
-          onChange={handleRemarksChange}
-          placeholder="Enter remarks..."
-        />
-      </label>
+          Remarks:
+          <input
+            type="text"
+            value={remarks}
+            onChange={handleRemarksChange}
+            placeholder="Enter remarks..."
+          />
+        </label>
 
         <button type="submit">Submit</button>
       </form>
@@ -178,12 +230,12 @@ const fetchUnitPriceFromDatabase = async (brand, size, metric) => {
   // Simulate fetching unit price from a database based on brand, size, and metric
   // Replace this with actual database fetching logic
   const unitPrices = {
-    'Bluecrown-2mm-Bag': 17700,
-    'Bluecrown-2mm-Kg': 1300,
-    'Bluecrown-2mm-HalfBag': 8900, // Example price for HalfBag
-    'Ecofloat-3mm-Bag': 12500,
-    'Ecofloat-3mm-Kg': 1200,
-    'Ecofloat-3mm-HalfBag': 6300, // Example price for HalfBag
+    "Bluecrown-2mm-Bag": 17700,
+    "Bluecrown-2mm-Kg": 1300,
+    "Bluecrown-2mm-HalfBag": 8900, // Example price for HalfBag
+    "Ecofloat-3mm-Bag": 12500,
+    "Ecofloat-3mm-Kg": 1200,
+    "Ecofloat-3mm-HalfBag": 6300, // Example price for HalfBag
     // ... add more unit prices as needed
   };
 

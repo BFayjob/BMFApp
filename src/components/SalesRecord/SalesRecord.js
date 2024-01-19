@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase.js";
+import { collectionPath, getDocs } from "../../firebase.js";
 
 export const SalesRecord = () => {
   // State for holding sales records data
@@ -20,7 +19,6 @@ export const SalesRecord = () => {
         const response = [];
 
         // Reference to the Firestore collection
-        const collectionPath = collection(db, "SalesRecord");
 
         // Fetch data from the Firestore collection
         const querySnapshot = await getDocs(collectionPath);
@@ -40,26 +38,17 @@ export const SalesRecord = () => {
         setLoading(false);
 
         // Example: Add a new document to the SalesRecord collection
-        await setDoc(doc(collectionPath, "nFwMNRZK72nFo2snlaPw"), {
-          brand: "ACEFloat",
-          size: "7mm",
-          quantity: 4,
-          metric: "Bag",
-          unitPrice: 23987,
-          totalPrice: 34989,
-          date: new Date().toISOString(), // Use the current date
-          remark: "hey there",
-        });
+      
 
-        // Fetch the data again after adding the new document
-        const updatedQuerySnapshot = await getDocs(collectionPath);
+        // // Fetch the data again after adding the new document
+        // const updatedQuerySnapshot = await getDocs(collectionPath);
 
-        // Update the state with the latest data
-        const updatedResponse = updatedQuerySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setSalesRecords(updatedResponse);
+        // // Update the state with the latest data
+        // const updatedResponse = updatedQuerySnapshot.docs.map((doc) => ({
+        //   id: doc.id,
+        //   ...doc.data(),
+        // }));
+        // setSalesRecords(updatedResponse);
       } catch (error) {
         // Handle any errors that occur during data fetching
         console.error("Error fetching or updating data:", error);

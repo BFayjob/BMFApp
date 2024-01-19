@@ -21,9 +21,9 @@ export const NavBar = () => {
         <li>
           <NavLink to='/'>Home</NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink to='/sales'>Sales</NavLink>
-        </li>
+        </li> */}
         <li>
           <NavLink to='/sales-record'>Sales Record</NavLink>
         </li>
