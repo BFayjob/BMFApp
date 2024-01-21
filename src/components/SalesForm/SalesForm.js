@@ -1,7 +1,6 @@
 // SalesForm.js
 import React, { useState, useEffect } from "react";
 import "./SalesForm.css";
-import "tailwindcss/tailwind.css";
 import { addDoc, collectionPath } from "../../firebase";
 
 export const SalesForm = () => {

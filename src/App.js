@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import { SalesForm } from './components/SalesForm/SalesForm';
 import {SalesRecord} from './components/SalesRecord/SalesRecord'; // Adjust the path based on your project structure
 import {StockRecord} from './components/SalesRecord/StockRecord';
-import StockInput from './components/SalesForm/StockInput';
+import {StockInput} from './components/SalesForm/StockInput';
 const App = () => {
   return( 
     <div className='App'>
