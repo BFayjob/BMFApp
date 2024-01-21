@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom';
 import './NavBar.css'
 
 export const NavBar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen] = useState(false);
 
   return (
     <nav>

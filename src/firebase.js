@@ -3,7 +3,7 @@
 
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-import {  addDoc, collection, getDocs, setDoc, doc  } from "firebase/firestore";
+import {  addDoc, collection, getDocs,  } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
