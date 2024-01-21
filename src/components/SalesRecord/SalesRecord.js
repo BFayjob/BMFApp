@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { collectionPath, getDocs } from "../../firebase.js";
+import 'tailwindcss/tailwind.css';
+
 
 export const SalesRecord = () => {
   // State for holding sales records data
@@ -88,6 +90,8 @@ export const SalesRecord = () => {
             <th>Quantity</th>
             <th>Unit Price</th>
             <th>Total Price</th>
+            <th>Remarks</th>
+
           </tr>
         </thead>
         <tbody>
@@ -103,6 +107,8 @@ export const SalesRecord = () => {
               <td>{record.quantity}</td>
               <td>{record.unitPrice}</td>
               <td>{record.totalPrice}</td>
+              <td>{record.remarks}</td>
+
             </tr>
           ))}
         </tbody>

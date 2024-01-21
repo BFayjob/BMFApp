@@ -1,6 +1,7 @@
 // SalesForm.js
 import React, { useState, useEffect } from "react";
 import "./SalesForm.css";
+import "tailwindcss/tailwind.css";
 import { addDoc, collectionPath } from "../../firebase";
 
 export const SalesForm = () => {
@@ -155,6 +156,7 @@ export const SalesForm = () => {
 
   return (
     <div>
+      <section className='sales-form-section'>
       <h2>Sales Form</h2>
       <form onSubmit={handleSubmit}>
         <label>
@@ -202,13 +204,14 @@ export const SalesForm = () => {
           />
         </label>
 
-        <div>
-          <strong>Unit Price:</strong> {unitPrice}
-        </div>
-
-        <div>
-          <strong>Total Price:</strong> {totalPrice}
-        </div>
+        <label>
+         Unit Price:
+         <input type="text" value={unitPrice} readOnly />
+       </label>
+       <label>
+         Total:
+         <input type="text" value={totalPrice} readOnly />
+       </label>
 
         <label>
           Remarks:
@@ -222,6 +225,7 @@ export const SalesForm = () => {
 
         <button type="submit">Submit</button>
       </form>
+      </section>
     </div>
   );
 };

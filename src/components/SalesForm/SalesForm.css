@@ -1,66 +1,71 @@
 /* SalesForm.css */
-
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 /* Container styles */
-.sales-form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #3498db; /* Primary shade of blue for borders */
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Header styles */
-  .sales-form-header {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #3498db; /* Primary shade of blue for text */
-  }
-  
-  /* Form styles */
-  .sales-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Form input styles */
-  .form-label {
-    margin-bottom: 8px;
-    color: #2980b9; /* Darker shade of blue for labels */
-  }
-  
-  .form-select,
-  .form-input {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 16px;
-    border: 1px solid #3498db; /* Primary shade of blue for input borders */
-    border-radius: 4px;
-  }
-  
-  /* Button styles */
-  .submit-button {
-    background-color: #3498db; /* Primary shade of blue for button background */
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .submit-button:hover {
-    background-color: #2980b9; /* Darker shade of blue on hover */
-  }
-  
-  /* Result styles */
-  .result-container {
-    margin-top: 20px;
-  }
-  
-  .result-label {
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #3498db; /* Primary shade of blue for result label */
-  }
+.sales-form {
+  max-width: 200px;
+  margin: auto;
+  padding-top: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  /* Add more styles as needed */
+}
+
+.form-button {
+  background: #4caf50;
+  color: rgb(247, 247, 247);
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Add more styles as needed */
+}
+
+/* SalesForm.css */
+
+.sales-form-section {
+  background-color: #0f141f; /* Army green background color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto; /* Adjust the margin as needed */
+  width: 50%; /* Adjust the width as needed */
+  position: relative; /* Ensure the container is a positioned parent for absolute positioning */
+}
+
+.sales-form-section label {
+  margin-bottom: 8px;
+  color: rgb(165, 70, 70); /* Text color */
+  display: block; /* Ensure labels are on their own line */
+}
+
+.sales-form-section select,
+.sales-form-section input {
+  width: 100%; /* Use full width of the container */
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.sales-form-section button {
+  background-color: rgb(114, 116, 203);
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%; /* Make the button full width within the container */
+}
+/* Add more styles as needed */
+
+
   

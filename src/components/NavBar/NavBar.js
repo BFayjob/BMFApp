@@ -1,6 +1,7 @@
 // NavBar.js
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import './NavBar.css'
 
 export const NavBar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -11,11 +12,7 @@ export const NavBar = () => {
         <img src='./GmlBlack.png' alt='GML Logo' />
       </Link>
 
-      <div className='menu' onClick={() => setMenuOpen(!menuOpen)}>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+      
 
       <ul className={menuOpen ? 'open' : ''}>
         <li>
