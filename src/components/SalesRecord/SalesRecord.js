@@ -39,18 +39,7 @@ export const SalesRecord = () => {
         // Set loading to false once data is fetched
         setLoading(false);
 
-        // Example: Add a new document to the SalesRecord collection
-      
-
-        // // Fetch the data again after adding the new document
-        // const updatedQuerySnapshot = await getDocs(collectionPath);
-
-        // // Update the state with the latest data
-        // const updatedResponse = updatedQuerySnapshot.docs.map((doc) => ({
-        //   id: doc.id,
-        //   ...doc.data(),
-        // }));
-        // setSalesRecords(updatedResponse);
+        
       } catch (error) {
         // Handle any errors that occur during data fetching
         console.error("Error fetching or updating data:", error);
