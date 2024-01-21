@@ -1,0 +1,69 @@
+/* SalesForm.css */
+
+/* Container styles */
+.sales-form {
+  max-width: 200px;
+  margin: auto;
+  padding-top: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  /* Add more styles as needed */
+}
+
+.form-button {
+  background: #4caf50;
+  color: rgb(247, 247, 247);
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  /* Add more styles as needed */
+}
+
+/* SalesForm.css */
+
+.sales-form-section {
+  background-color: #0f141f; /* Army green background color */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px auto; /* Adjust the margin as needed */
+  width: 50%; /* Adjust the width as needed */
+  position: relative; /* Ensure the container is a positioned parent for absolute positioning */
+}
+
+.sales-form-section label {
+  margin-bottom: 8px;
+  color: rgb(165, 70, 70); /* Text color */
+  display: block; /* Ensure labels are on their own line */
+}
+
+.sales-form-section select,
+.sales-form-section input {
+  width: 100%; /* Use full width of the container */
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.sales-form-section button {
+  background-color: rgb(114, 116, 203);
+  color: rgb(255, 255, 255);
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%; /* Make the button full width within the container */
+}
+/* Add more styles as needed */
+
+
+  

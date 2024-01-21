@@ -28,6 +28,9 @@ export const NavBar = () => {
           <NavLink to='/stock-Record'>Stock Record</NavLink>
         </li>
         <li>
+          <NavLink to='/stock-Input'>Stock Input</NavLink>
+        </li>
+        <li>
           <NavLink to='/signin'>Sign In</NavLink>
         </li>
       </ul>

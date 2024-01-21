@@ -5,7 +5,8 @@ import { NavBar } from './components/NavBar/NavBar';
 import { Route, Routes } from 'react-router-dom';
 import { SalesForm } from './components/SalesForm/SalesForm';
 import {SalesRecord} from './components/SalesRecord/SalesRecord'; // Adjust the path based on your project structure
-import {StockRecord} from './components/StockRecord/StockRecord';
+import {StockRecord} from './components/SalesRecord/StockRecord';
+import StockInput from './components/SalesForm/StockInput';
 const App = () => {
   return( 
     <div className='App'>
@@ -14,6 +15,8 @@ const App = () => {
         <Route path='/' element={<SalesForm />} />
         <Route path='/sales-record' element={<SalesRecord />} />
         <Route path='/stock-record' element={<StockRecord />} />
+        <Route path='/stock-input' element={<StockInput />} />
+
 
       </Routes>
     </div>
