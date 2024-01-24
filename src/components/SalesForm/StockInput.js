@@ -1,13 +1,14 @@
 // StockInput.js
 import React, { useState } from "react";
-import { addDoc, collectionPath } from "../../firebase";
+import { addDoc, stockRecordPath } from "../../firebase";
 
 export const StockInput = () => {
   const [brand, setBrand] = useState("");
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState("");
   const [metric, setMetric] = useState("Bag");
-  
+
+  const [loading, setLoading] = useState(false);
 
   const brands = [
     "Bluecrown",
@@ -65,8 +66,6 @@ export const StockInput = () => {
     setMetric(e.target.value);
     // Clear quantity when changing metric to avoid conflicts
     setQuantity("");
-
-    
   };
 
   // Inside handleSubmit function in StockInput.js
@@ -80,9 +79,9 @@ export const StockInput = () => {
     if (shouldSubmit) {
       // ... Other code to store data in Firestore or your database ...
 
-      
+      setLoading(true);
 
-      await addDoc(collectionPath, {
+      await addDoc(stockRecordPath, {
         brand,
         size,
         quantity,
@@ -94,67 +93,69 @@ export const StockInput = () => {
       setSize("");
       setQuantity("");
       setMetric("Bag");
-      
+      setLoading(false);
     }
   };
 
   return (
     <div>
-      <section className='sales-form-section'>
-      <h2>Stock Input</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Brand:
-          <select value={brand} onChange={handleBrandChange}>
-            <option value="">Select Brand</option>
-            {brands.map((brandOption) => (
-              <option key={brandOption} value={brandOption}>
-                {brandOption}
-              </option>
-            ))}
-          </select>
-        </label>
+      <section className="sales-form-section">
+        <h2>Stock Input</h2>
+        {loading ? (
+          <div>Loading</div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <label>
+              Brand:
+              <select value={brand} onChange={handleBrandChange}>
+                <option value="">Select Brand</option>
+                {brands.map((brandOption) => (
+                  <option key={brandOption} value={brandOption}>
+                    {brandOption}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-        {brand && (
-          <label>
-            Size:
-            <select value={size} onChange={handleSizeChange}>
-              <option value="">Select Size</option>
-              {sizesByBrand[brand].map((sizeOption) => (
-                <option key={sizeOption} value={sizeOption}>
-                  {sizeOption}
-                </option>
-              ))}
-            </select>
-          </label>
+            {brand && (
+              <label>
+                Size:
+                <select value={size} onChange={handleSizeChange}>
+                  <option value="">Select Size</option>
+                  {sizesByBrand[brand].map((sizeOption) => (
+                    <option key={sizeOption} value={sizeOption}>
+                      {sizeOption}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+
+            <label>
+              Metric:
+              <select value={metric} onChange={handleMetricChange}>
+                <option value="Bag">Bag</option>
+                <option value="Kg">Kg</option>
+                <option value="HalfBag">HalfBag</option>
+              </select>
+            </label>
+
+            <label>
+              Quantity:
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                required
+              />
+            </label>
+
+            <button type="submit">Submit</button>
+          </form>
         )}
-
-        <label>
-          Metric:
-          <select value={metric} onChange={handleMetricChange}>
-            <option value="Bag">Bag</option>
-            <option value="Kg">Kg</option>
-            <option value="HalfBag">HalfBag</option>
-          </select>
-        </label>
-
-        <label>
-          Quantity:
-          <input
-            type="number"
-            value={quantity}
-            onChange={handleQuantityChange}
-            required
-          />
-        </label>
-
-        <button type="submit">Submit</button>
-      </form>
       </section>
     </div>
   );
 };
-
-
 
 export default StockInput;

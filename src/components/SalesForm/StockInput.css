@@ -39,6 +39,7 @@
   margin: 20px auto; /* Adjust the margin as needed */
   width: 50%; /* Adjust the width as needed */
   position: relative; /* Ensure the container is a positioned parent for absolute positioning */
+  color: white;
 }
 
 .sales-form-section label {

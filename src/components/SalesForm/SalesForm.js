@@ -1,7 +1,7 @@
 // SalesForm.js
 import React, { useState, useEffect } from "react";
 import "./SalesForm.css";
-import { addDoc, collectionPath } from "../../firebase";
+import { addDoc, salesRecordPath } from "../../firebase";
 
 export const SalesForm = () => {
   const [brand, setBrand] = useState("");
@@ -11,6 +11,7 @@ export const SalesForm = () => {
   const [unitPrice, setUnitPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [remarks, setRemarks] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const brands = [
     "Bluecrown",
@@ -130,9 +131,9 @@ export const SalesForm = () => {
     if (shouldSubmit) {
       // ... Other code to store data in Firestore or your database ...
 
-      
+      setLoading(true);
 
-      await addDoc(collectionPath, {
+      await addDoc(salesRecordPath, {
         brand,
         size,
         quantity,
@@ -150,80 +151,85 @@ export const SalesForm = () => {
       setUnitPrice(0);
       setTotalPrice(0);
       setRemarks("");
+      setLoading(false);
     }
   };
 
   return (
     <div>
-      <section className='sales-form-section'>
-      <h2>Sales Form</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Brand:
-          <select value={brand} onChange={handleBrandChange}>
-            <option value="">Select Brand</option>
-            {brands.map((brandOption) => (
-              <option key={brandOption} value={brandOption}>
-                {brandOption}
-              </option>
-            ))}
-          </select>
-        </label>
+      <section className="sales-form-section">
+        <h2>Sales Form</h2>
+        {loading ? (
+          <div  className="text">Loading...</div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <label>
+              Brand:
+              <select value={brand} onChange={handleBrandChange}>
+                <option value="">Select Brand</option>
+                {brands.map((brandOption) => (
+                  <option key={brandOption} value={brandOption}>
+                    {brandOption}
+                  </option>
+                ))}
+              </select>
+            </label>
 
-        {brand && (
-          <label>
-            Size:
-            <select value={size} onChange={handleSizeChange}>
-              <option value="">Select Size</option>
-              {sizesByBrand[brand].map((sizeOption) => (
-                <option key={sizeOption} value={sizeOption}>
-                  {sizeOption}
-                </option>
-              ))}
-            </select>
-          </label>
+            {brand && (
+              <label>
+                Size:
+                <select value={size} onChange={handleSizeChange}>
+                  <option value="">Select Size</option>
+                  {sizesByBrand[brand].map((sizeOption) => (
+                    <option key={sizeOption} value={sizeOption}>
+                      {sizeOption}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+
+            <label>
+              Metric:
+              <select value={metric} onChange={handleMetricChange}>
+                <option value="Bag">Bag</option>
+                <option value="Kg">Kg</option>
+                <option value="HalfBag">HalfBag</option>
+              </select>
+            </label>
+
+            <label>
+              Quantity:
+              <input
+                type="number"
+                value={quantity}
+                onChange={handleQuantityChange}
+                required
+              />
+            </label>
+
+            <label>
+              Unit Price:
+              <input type="text" value={unitPrice} readOnly />
+            </label>
+            <label>
+              Total:
+              <input type="text" value={totalPrice} readOnly />
+            </label>
+
+            <label>
+              Remarks:
+              <input
+                type="text"
+                value={remarks}
+                onChange={handleRemarksChange}
+                placeholder="Enter remarks..."
+              />
+            </label>
+
+            <button type="submit">Submit</button>
+          </form>
         )}
-
-        <label>
-          Metric:
-          <select value={metric} onChange={handleMetricChange}>
-            <option value="Bag">Bag</option>
-            <option value="Kg">Kg</option>
-            <option value="HalfBag">HalfBag</option>
-          </select>
-        </label>
-
-        <label>
-          Quantity:
-          <input
-            type="number"
-            value={quantity}
-            onChange={handleQuantityChange}
-            required
-          />
-        </label>
-
-        <label>
-         Unit Price:
-         <input type="text" value={unitPrice} readOnly />
-       </label>
-       <label>
-         Total:
-         <input type="text" value={totalPrice} readOnly />
-       </label>
-
-        <label>
-          Remarks:
-          <input
-            type="text"
-            value={remarks}
-            onChange={handleRemarksChange}
-            placeholder="Enter remarks..."
-          />
-        </label>
-
-        <button type="submit">Submit</button>
-      </form>
       </section>
     </div>
   );

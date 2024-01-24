@@ -1,12 +1,11 @@
 //stockRecord.js
 import React, { useState, useEffect } from 'react';
-import { getDocs, collection } from 'firebase/firestore';
-import SalesRecord from './SalesRecord';
-import {  db } from '../../firebase'; // Import your Firebase configuration
+import { stockRecordPath, getDocs } from "../../firebase.js";
+
 
 export const StockRecord = () => {
   const [stock, setStock] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchStockRecords();
@@ -15,9 +14,9 @@ export const StockRecord = () => {
   const fetchStockRecords = async () => {
     setLoading(true);
     try {
-      const stockCollection = collection(db, "stockRecords");
-      const stockSnapshot = await getDocs(stockCollection);
+      const stockSnapshot = await getDocs(stockRecordPath);
       const stockData = stockSnapshot.docs.map((doc) => doc.data());
+      console.log(stockData);
       setStock(stockData);
     } catch (error) {
       console.error('Fetch failed:', error);
@@ -46,14 +45,14 @@ export const StockRecord = () => {
               <tr key={index}>
                 <td>{record.brand}</td>
                 <td>{record.size}</td>
-                <td>{record.quantityInBags}</td>
+                <td>{record.quantity}</td>
                 <td>{record.quantityInKg}</td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
-      <SalesRecord onUpdate={fetchStockRecords} />
+      {/* <SalesRecord onUpdate={fetchStockRecords} /> */}
     </div>
   );
 };

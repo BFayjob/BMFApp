@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { collectionPath, getDocs } from "../../firebase.js";
+import { salesRecordPath, getDocs } from "../../firebase.js";
 import 'tailwindcss/tailwind.css';
 
 
@@ -23,7 +23,7 @@ export const SalesRecord = () => {
         // Reference to the Firestore collection
 
         // Fetch data from the Firestore collection
-        const querySnapshot = await getDocs(collectionPath);
+        const querySnapshot = await getDocs(salesRecordPath);
 
         // Loop through each document and extract data
         querySnapshot.forEach((doc) => {
