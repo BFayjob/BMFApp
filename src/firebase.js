@@ -2,7 +2,7 @@
 
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, deleteDoc } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,4 +29,4 @@ const db = getFirestore(app);
 const salesRecordPath = collection(db, "SalesRecord");
 const stockRecordPath = collection(db, "StockRecord");
 
-export { db, salesRecordPath, stockRecordPath, addDoc, getDocs, };
+export { db, salesRecordPath, stockRecordPath, addDoc, getDocs, deleteDoc };

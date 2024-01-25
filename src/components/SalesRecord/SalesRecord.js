@@ -1,78 +1,75 @@
 import { useState, useEffect } from "react";
-import { salesRecordPath, getDocs } from "../../firebase.js";
+import { salesRecordPath, getDocs, deleteDoc } from "../../firebase.js";
 import 'tailwindcss/tailwind.css';
 
-
 export const SalesRecord = () => {
-  // State for holding sales records data
   const [salesRecords, setSalesRecords] = useState([]);
-
-  // Loading state to track whether data is being fetched
   const [loading, setLoading] = useState(true);
-
-  // Error state to handle any potential errors during data fetching
   const [error, setError] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(""); // State for selected date
 
-  // useEffect hook to fetch data when the component mounts
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Temporary array to store fetched data
-        const response = [];
-
-        // Reference to the Firestore collection
-
-        // Fetch data from the Firestore collection
-        const querySnapshot = await getDocs(salesRecordPath);
-
-        // Loop through each document and extract data
-        querySnapshot.forEach((doc) => {
-          response.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-
-        // Set the state with the fetched data
-        setSalesRecords(response);
-
-        // Set loading to false once data is fetched
-        setLoading(false);
-
-        
-      } catch (error) {
-        // Handle any errors that occur during data fetching
-        console.error("Error fetching or updating data:", error);
-        setError("An error occurred while fetching or updating data.");
-
-        // Set loading to false in case of an error
-        setLoading(false);
-      }
-    };
-
-    // Call the fetchData function when the component mounts
     fetchData();
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, [selectedDate]); // Refetch data when selected date changes
 
-  // Loading state: Show a loading message while data is being fetched
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const fetchData = async () => {
+    try {
+      const response = [];
+      const querySnapshot = await getDocs(salesRecordPath);
 
-  // Error state: Display an error message if data fetching encounters an issue
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
+      querySnapshot.forEach((doc) => {
+        response.push({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
 
-  // Render the component with the fetched data
+      // Filter sales records based on the selected date
+      const filteredRecords = selectedDate
+        ? response.filter((record) => record.date === selectedDate)
+        : response;
+
+      setSalesRecords(filteredRecords);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching or updating data:", error);
+      setError("An error occurred while fetching or updating data.");
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id, date) => {
+    try {
+      // Allow deletion only if the entry date is the present date
+      const isPresentDate = new Date(date).toLocaleDateString() === new Date().toLocaleDateString();
+
+      if (isPresentDate) {
+        await deleteDoc(salesRecordPath, id);
+        fetchData(); // Refetch data after deletion
+      } else {
+        alert("You can only delete entries on the present date.");
+      }
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
+
   return (
     <div>
       <h2>Sales Record</h2>
+      <label htmlFor="datePicker">Select Date:</label>
+      <input
+        type="date"
+        id="datePicker"
+        value={selectedDate}
+        onChange={(e) => setSelectedDate(e.target.value)}
+      />
+
       <table>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Date</th> {/* New Date column */}
+            
+            <th>Date</th>
             <th>Brand</th>
             <th>Size</th>
             <th>Metric</th>
@@ -80,13 +77,13 @@ export const SalesRecord = () => {
             <th>Unit Price</th>
             <th>Total Price</th>
             <th>Remarks</th>
-
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
           {salesRecords.map((record) => (
-            <tr key={record.id}>
-              <td>{record.id}</td>
+            <tr key={record.brand}>
+             
               <td>
                 {record.date && new Date(record.date).toLocaleDateString()}
               </td>
@@ -97,7 +94,11 @@ export const SalesRecord = () => {
               <td>{record.unitPrice}</td>
               <td>{record.totalPrice}</td>
               <td>{record.remarks}</td>
-
+              <td>
+                <button onClick={() => handleDelete(record.id, record.date)}>
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
