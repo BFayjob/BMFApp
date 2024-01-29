@@ -1,9 +1,10 @@
-// SalesForm.js
 import React, { useState, useEffect } from "react";
 import "./SalesForm.css";
 import { addDoc, salesRecordPath } from "../../firebase";
 
+
 export const SalesForm = () => {
+  const [orderItems, setOrderItems] = useState([]);
   const [brand, setBrand] = useState("");
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -11,6 +12,9 @@ export const SalesForm = () => {
   const [unitPrice, setUnitPrice] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
   const [remarks, setRemarks] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [customerName, setCustomerName] = useState("");
+  const [paymentMethod, setPaymentMethod] = useState("Cash");
   const [loading, setLoading] = useState(false);
 
   const brands = [
@@ -23,6 +27,11 @@ export const SalesForm = () => {
     "Alpha",
     "Ace",
   ];
+
+  const [cashAmount, setCashAmount] = useState(0);
+const [transferAmount, setTransferAmount] = useState(0);
+const [useBothPayments, setUseBothPayments] = useState(false);
+
   const sizesByBrand = {
     Bluecrown: ["2mm", "3mm", "4mm", "6mm", "9mm"],
     Ecofloat: ["3mm", "4mm", "6mm", "9mm"],
@@ -95,10 +104,7 @@ export const SalesForm = () => {
 
   const handleMetricChange = (e) => {
     setMetric(e.target.value);
-    // Clear quantity when changing metric to avoid conflicts
-    setQuantity("");
-
-    // Fetch unit price based on the selected metric
+    setQuantity(""); // Clear quantity when changing metric to avoid conflicts
     fetchUnitPrice();
   };
 
@@ -120,7 +126,56 @@ export const SalesForm = () => {
     setRemarks(e.target.value);
   };
 
-  // Inside handleSubmit function in SalesForm.js
+  const handleDiscountChange = (e) => {
+    setDiscount(parseFloat(e.target.value) || 0);
+  };
+
+  const handleCustomerNameChange = (e) => {
+    setCustomerName(e.target.value);
+  };
+
+  const handlePaymentMethodChange = (e) => {
+    setPaymentMethod(e.target.value);
+  };
+
+  const handleAddToCart = () => {
+    if (brand && size && quantity > 0) {
+      setOrderItems([...orderItems, { brand, size, quantity, unitPrice }]);
+      // Reset fields after adding to cart
+      setBrand("");
+      setSize("");
+      setQuantity("");
+      setMetric("Bag");
+      setUnitPrice(0);
+    } else {
+      // Display an error message or handle invalid input
+    }
+  };
+
+  const calculateOrderTotal = () => {
+    return orderItems.reduce(
+      (acc, item) => acc + item.quantity * item.unitPrice,
+      0
+    );
+  };
+
+  const calculateDiscountedTotal = () => {
+    const orderTotal = calculateOrderTotal();
+    return orderTotal - (orderTotal * discount) / 100;
+  };
+
+  const handleCashAmountChange = (e) => {
+    setCashAmount(parseFloat(e.target.value) || 0);
+  };
+  
+  const handleTransferAmountChange = (e) => {
+    setTransferAmount(parseFloat(e.target.value) || 0);
+  };
+  
+  const handleUseBothPaymentsChange = (e) => {
+    setUseBothPayments(e.target.checked);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -129,29 +184,47 @@ export const SalesForm = () => {
     );
 
     if (shouldSubmit) {
-      // ... Other code to store data in Firestore or your database ...
-
       setLoading(true);
 
-      await addDoc(salesRecordPath, {
-        brand,
-        size,
-        quantity,
-        metric,
-        unitPrice,
-        totalPrice,
-        date: new Date().toISOString(), // Use the current date
-        remarks,
-      });
+      try {
+        // Perform any actions before submitting the order
 
-      setBrand("");
-      setSize("");
-      setQuantity("");
-      setMetric("Bag");
-      setUnitPrice(0);
-      setTotalPrice(0);
-      setRemarks("");
-      setLoading(false);
+        // Simulate adding the order to the sales records
+        await addDoc(salesRecordPath, {
+          customerName,
+          items: orderItems,
+          totalBeforeDiscount: calculateOrderTotal(),
+          discount,
+          discountedTotal: calculateDiscountedTotal(),
+          paymentMethod,
+          date: new Date().toISOString(),
+          remarks,
+        });
+
+        // Optionally, update stock or perform other actions
+
+        // Reset the form after successful submission
+        setOrderItems([]);
+        setBrand("");
+        setSize("");
+        setQuantity("0");
+        setMetric("Bag");
+        setUnitPrice(0);
+        setTotalPrice(0);
+        setRemarks("");
+        setDiscount("");
+        setCustomerName("");
+        setPaymentMethod("Cash");
+
+        // Inform the user about successful submission
+        alert('Order submitted successfully!');
+      } catch (error) {
+        console.error('Error submitting order:', error);
+        // Handle error or inform the user about the failure
+        alert('Error submitting order. Please try again.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -160,9 +233,10 @@ export const SalesForm = () => {
       <section className="sales-form-section">
         <h2>Sales Form</h2>
         {loading ? (
-          <div  className="text">Loading...</div>
+          <div className="text">Loading...</div>
         ) : (
           <form onSubmit={handleSubmit}>
+            {/* Existing form fields */}
             <label>
               Brand:
               <select value={brand} onChange={handleBrandChange}>
@@ -227,7 +301,104 @@ export const SalesForm = () => {
               />
             </label>
 
-            <button type="submit">Submit</button>
+            <label>
+              Discount (%):
+              <input
+                type="number"
+                value={discount}
+                onChange={handleDiscountChange}
+              />
+            </label>
+
+            <button type="button" onClick={handleAddToCart}>
+              Add to Cart
+            </button>
+
+            {/* Display the list of items in the current order */}
+            <div>
+              <h3>Order Items</h3>
+              <ul>
+                {orderItems.map((item, index) => (
+                  <li key={index}>
+                    {item.brand} - {item.size} - {item.quantity}{' '}
+                    <button onClick={() => setOrderItems(orderItems.filter((_, i) => i !== index))}>
+                      Remove Item
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Display total and discounted total */}
+            <div>
+              <h4>Total: ₦{calculateOrderTotal()}</h4>
+              <h4>Discounted Total: ₦{calculateDiscountedTotal()}</h4>
+            </div>
+
+            {/* Additional input fields */}
+            <label>
+              Customer Name:
+              <input
+                type="text"
+                value={customerName}
+                onChange={handleCustomerNameChange}
+              />
+            </label>
+
+            <label>
+  Payment Method:
+  <select value={paymentMethod} onChange={handlePaymentMethodChange}>
+    <option value="Cash">Cash</option>
+    <option value="Bank Transfer">Bank Transfer</option>
+    <option value="Both">Both</option>
+  </select>
+</label>
+
+{/* Input for Cash Amount */}
+{paymentMethod === "Cash" || paymentMethod === "Both" ? (
+  <label>
+    Cash Amount (₦):
+    <input
+      type="number"
+      value={cashAmount}
+      onChange={handleCashAmountChange}
+      disabled={paymentMethod === "Both" && !useBothPayments}
+    />
+  </label>
+) : null}
+
+{/* Input for Transfer Amount */}
+{paymentMethod === "Bank Transfer" || paymentMethod === "Both" ? (
+  <label>
+    Transfer Amount (₦):
+    <input
+      type="number"
+      value={transferAmount}
+      onChange={handleTransferAmountChange}
+      disabled={paymentMethod === "Both" && !useBothPayments}
+    />
+  </label>
+) : null}
+
+{/* Checkbox to indicate the use of both payments */}
+{paymentMethod === "Both" ? (
+  <label>
+    Use both payments:
+    <input
+      type="checkbox"
+      checked={useBothPayments}
+      onChange={handleUseBothPaymentsChange}
+    />
+  </label>
+) : null}
+
+            
+
+            {/* Add more input fields for other order details */}
+
+            
+
+            <button type="submit">Submit Order</button>
           </form>
         )}
       </section>
