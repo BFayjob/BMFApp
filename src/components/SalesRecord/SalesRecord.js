@@ -1,108 +1,133 @@
-import { useState, useEffect } from "react";
-import { salesRecordPath, getDocs, deleteDoc } from "../../firebase.js";
-import 'tailwindcss/tailwind.css';
+import React, { useState, useEffect } from "react";
 
 export const SalesRecord = () => {
   const [salesRecords, setSalesRecords] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(""); // State for selected date
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchData();
-  }, [selectedDate]); // Refetch data when selected date changes
+    // Fetch sales records from the database or Firebase
+    const fetchSalesRecords = async () => {
+      try {
+        setLoading(true);
 
-  const fetchData = async () => {
-    try {
-      const response = [];
-      const querySnapshot = await getDocs(salesRecordPath);
+        // Simulate fetching sales records from the database
+        const fetchedRecords = await fetchSalesRecordsFromDatabase();
 
-      querySnapshot.forEach((doc) => {
-        response.push({
-          id: doc.id,
-          ...doc.data(),
-        });
-      });
+        setSalesRecords(fetchedRecords);
+      } catch (error) {
+        console.error("Error fetching sales records:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      // Filter sales records based on the selected date
-      const filteredRecords = selectedDate
-        ? response.filter((record) => record.date === selectedDate)
-        : response;
+    fetchSalesRecords();
+  }, []);
 
-      setSalesRecords(filteredRecords);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching or updating data:", error);
-      setError("An error occurred while fetching or updating data.");
-      setLoading(false);
-    }
+  const fetchSalesRecordsFromDatabase = async () => {
+    // Simulate fetching sales records from a database
+    // Replace this with actual database fetching logic
+
+    const recordsFromDatabase = [
+      // Example sales record format
+      {
+        customerName: "John Doe",
+        items: [
+          { brand: "Bluecrown", size: "2mm", quantity: 5, unitPrice: 17700, metric: "Bag" },
+          // Add more items as needed
+        ],
+        totalBeforeDiscount: 100000, // Replace with the actual total
+        discount: 0, // Replace with the actual discount percentage
+        paymentMethod: "Cash",
+        cashAmount: 80000,
+        transferAmount: 0,
+        useBothPayments: false,
+        date: "2024-01-06T12:30:00Z", // Replace with the actual date
+        remarks: "Customer satisfied with the purchase.",
+      },
+      // Add more records as needed
+    ];
+
+    return recordsFromDatabase;
   };
 
-  const handleDelete = async (id, date) => {
-    try {
-      // Allow deletion only if the entry date is the present date
-      const isPresentDate = new Date(date).toLocaleDateString() === new Date().toLocaleDateString();
+  const renderSalesRecordsTable = () => {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Customer Name</th>
+            <th>Brand-Size</th>
+            <th>Quantity</th>
+            <th>Metric</th>
+            <th>Unit Price</th>
+            <th>Total Before Discount</th>
+            <th>Discount (%)</th>
+            <th>Discounted Total</th>
+            <th>Cash Amount</th>
+            <th>Transfer Amount</th>
+            <th>Use Both Payments</th>
+            <th>Date</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {salesRecords.map((record, index) => {
+            // Calculate discounted total
+            const discountedTotal =
+              record.discount > 0
+                ? record.totalBeforeDiscount - (record.totalBeforeDiscount * record.discount) / 100
+                : record.totalBeforeDiscount;
 
-      if (isPresentDate) {
-        await deleteDoc(salesRecordPath, id);
-        fetchData(); // Refetch data after deletion
-      } else {
-        alert("You can only delete entries on the present date.");
-      }
-    } catch (error) {
-      console.error("Error deleting data:", error);
-    }
+            return (
+              <tr key={index}>
+                <td>{record.customerName}</td>
+                <td>
+                  {record.items.map((item, itemIndex) => (
+                    <div key={itemIndex}>{`${item.brand}-${item.size}`}</div>
+                  ))}
+                </td>
+                <td>
+                  {record.items.map((item, itemIndex) => (
+                    <div key={itemIndex}>{`${item.quantity}`}</div>
+                  ))}
+                </td>
+                <td>
+                  {record.items.map((item, itemIndex) => (
+                    <div key={itemIndex}>{`${item.metric}`}</div>
+                  ))}
+                </td>
+                <td>
+                  {record.items.map((item, itemIndex) => (
+                    <div key={itemIndex}>{`₦${item.unitPrice}`}</div>
+                  ))}
+                </td>
+                <td>₦{record.totalBeforeDiscount}</td>
+                <td>{record.discount}%</td>
+                <td>₦{discountedTotal}</td>
+                <td>₦{record.cashAmount}</td>
+                <td>₦{record.transferAmount}</td>
+                <td>{record.useBothPayments ? "Yes" : "No"}</td>
+                <td>{new Date(record.date).toLocaleString()}</td>
+                <td>{record.remarks}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    );
   };
 
   return (
     <div>
-      <h2>Sales Record</h2>
-      <label htmlFor="datePicker">Select Date:</label>
-      <input
-        type="date"
-        id="datePicker"
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-      />
-
-      <table>
-        <thead>
-          <tr>
-            
-            <th>Date</th>
-            <th>Brand</th>
-            <th>Size</th>
-            <th>Metric</th>
-            <th>Quantity</th>
-            <th>Unit Price</th>
-            <th>Total Price</th>
-            <th>Remarks</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {salesRecords.map((record) => (
-            <tr key={record.brand}>
-             
-              <td>
-                {record.date && new Date(record.date).toLocaleDateString()}
-              </td>
-              <td>{record.brand}</td>
-              <td>{record.size}</td>
-              <td>{record.metric}</td>
-              <td>{record.quantity}</td>
-              <td>{record.unitPrice}</td>
-              <td>{record.totalPrice}</td>
-              <td>{record.remarks}</td>
-              <td>
-                <button onClick={() => handleDelete(record.id, record.date)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <section className="sales-record-section">
+        <h2>Sales Records</h2>
+        {loading ? (
+          <div className="text">Loading...</div>
+        ) : (
+          <div>{renderSalesRecordsTable()}</div>
+        )}
+      </section>
     </div>
   );
 };

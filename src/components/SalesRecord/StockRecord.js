@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { stockRecordPath, getDocs } from "../../firebase.js";
 
 export const StockRecord = () => {
-  const [stock, setStock] = useState([]);
+  const [ setStock] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
+  // eslint-disable-next-line
   useEffect(() => {
-    fetchStockRecords();
+    fetchStockRecords(); 
+    // eslint-disable-next-line
   }, [selectedDate]);
 
   const fetchStockRecords = async () => {
@@ -16,7 +18,7 @@ export const StockRecord = () => {
       const stockSnapshot = await getDocs(stockRecordPath);
       const stockData = stockSnapshot.docs.map((doc) => doc.data());
       // Assuming you have a field named 'timestamp' in your stock records
-      const currentTimestamp = new Date().getHours();
+      
 
       const openingStockData = stockData.filter(record => {
         const recordTimestamp = new Date(record.timestamp).getHours();

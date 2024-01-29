@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-const OrderManagement = () => {
+export const OrderManagement = () => {
   // State to manage the list of customer orders
   const [orders, setOrders] = useState([]);
   
@@ -58,17 +58,9 @@ const OrderManagement = () => {
   // Function to handle order submission
   const submitOrder = () => {
     // Perform any final validation before submitting the order
-    const total = calculateTotalPrice();
-
+    
     // Create an object representing the order to be added to the sales records
-    const orderData = {
-      // Include necessary fields from the current order and additional data
-      // For example: customerName, remarks, date, etc.
-      customerName,
-      total,
-      items: orders,
-      date: new Date().toISOString(),
-    };
+    
 
     // Now you can send this orderData to your sales record or perform other actions
 
