@@ -28,5 +28,7 @@ const db = getFirestore(app);
 
 const salesRecordPath = collection(db, "SalesRecord");
 const stockRecordPath = collection(db, "StockRecord");
+const refundRecordPath = collection(db, "RefundRecord");
 
-export { db, salesRecordPath, stockRecordPath, addDoc, getDocs, deleteDoc };
+
+export { db, salesRecordPath, stockRecordPath, refundRecordPath, addDoc, getDocs, deleteDoc };

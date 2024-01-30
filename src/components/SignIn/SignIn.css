@@ -1,0 +1,76 @@
+/* SignIn.css */
+/* Container styles */
+.sign-in-form {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #0f141f;
+    border-radius: 8px;
+    color: white;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 10px;
+    color: rgb(165, 70, 70);
+  }
+  
+  .form-select,
+  .form-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    background-color: #1a202c;
+    color: white;
+    border: 1px solid #4a5568;
+    border-radius: 4px;
+  }
+  
+  .form-button {
+    background-color: #6e76cb;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    border-radius: 4px;
+  }
+  
+  .sales-items-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sales-item {
+    background-color: #2d3748;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .sales-item button {
+    background-color: #e53e3e;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .total-label {
+    display: block;
+    margin-top: 20px;
+  }
+  
+  .total-amount {
+    font-size: 18px;
+    font-weight: bold;
+    color: #48bb78;
+  }
+  /* Add more styles as needed */
+  
