@@ -13,8 +13,9 @@ export const WelcomeMessage = ({ username }) => {
 
     updateClock();
     const interval = setInterval(updateClock, 1000);
-
+// eslint-disable-next-line
     return () => clearInterval(interval);
+    // eslint-disable-next-line
   }, []);
 
   return (

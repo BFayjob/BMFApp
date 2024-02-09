@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from "react";
 
-const today = new Date().toISOString().slice(0, 10); // Get current date
 
 export const SalesHistory = ({ isDashboard, date }) => {
   const [salesRecords, setSalesRecords] = useState([]);
@@ -18,7 +17,6 @@ export const SalesHistory = ({ isDashboard, date }) => {
         const fetchedRecords = await fetchSalesRecordsFromDatabase();
 
          // Filter records based on `isDashboard` and `date`
-         const filteredRecords = isDashboard ? fetchedRecords.filter((record) => record.date === today) : fetchedRecords;
 
         setSalesRecords(fetchedRecords);
       } catch (error) {

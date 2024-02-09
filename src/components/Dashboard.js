@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { WelcomeMessage } from "./WelcomeMessage"; // Adjust the import path
 import { SalesForm } from "./SalesForm/SalesForm";
 import { SalesHistory } from "./SalesRecord/SalesHistory.js"; // Adjust the path based on your project structure

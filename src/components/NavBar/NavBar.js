@@ -23,6 +23,7 @@ export const NavBar = () => {
     // Close menu on outside click
     document.addEventListener('click', closeMenu);
     return () => document.removeEventListener('click', closeMenu);
+    // eslint-disable-next-line
   }, [isMenuOpen]); // Only add/remove listener when state changes
 
   const menuClasses = !isMenuOpen ? 'hidden' : ''; // Conditional visibility for mobile
