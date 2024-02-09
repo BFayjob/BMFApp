@@ -1,89 +1,166 @@
-/* Navbar.css */
-.active{
-  background-color: rgb(114, 116, 203);
-}
-nav{
+/* General styles */
+.side-nav {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  width: 50px;
+  height: 50px;
+  background-color: #e9edf0; /* Light army green */
+  position: fixed;
   align-items: center;
-  background-color: #0f141f;
-  position: sticky;
   top: 0;
+  left: 0;
+  width: 200px; /* Set desired width for the side nav */
+  height: 100vh;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(123, 70, 70, 0.2);
+  justify-content: top;
+  transition: width 0.3s ease-in-out;
+}
+
+
+
+.content-area {
+  flex: 1; /* Take up remaining space */
+  padding: 250px; /* Adjust as needed */
+  align-items: center;
+  justify-content: top;
+  /* ... other content styles */
+}
+
+.text {
+  /* Always visible */
+  display: inline-block;
+}
+.side-nav.expanded {
+  /* Expanded state */
+  width: 200px; /* Adjust as needed */
+  transition: width 0.3s ease-in-out;
+}
+.side-nav.expanded .text {
+  /* Show text when menu is expanded */
+  display: inline-block;
 }
 
 .logo {
-  margin-right: 10px; /* adjust this value as needed */
+  margin-bottom: 5px;
 }
 
 .logo img {
-  width: 80px; 
-  height: 50px; 
+  width: 80px;
+  height: 50px;
 }
 
-nav ul{
-  display: flex;
-}
-
-nav ul li{
+.menu {
+ 
   list-style: none;
-
+  padding: 0;
+  margin: 0;
 }
 
-nav ul li a{
-  display: block;
+
+
+.menu li {
+  margin-bottom: 0.5rem;
+  margin: 0;
+  padding: 5px; /* Adjust as needed */
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.menu li a {
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  color: white;
-  padding: 0.5rem;
-  margin: 0 0.5rem;
+  color: #333; /* Cream */
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-
+  transition: background-color 0.2s ease-in-out;
 }
 
-nav ul li a:not(.active):hover{
-  background-color: #172554;
+.menu li a:not(.active):hover {
+  background-color: #6f1b1b;
 }
 
-nav .menu{
-  display: none;
+.menu li a .icon {
+  display: none; /* Initially hide icons */
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  /* Replace with your preferred icon library or styles */
+}
+
+.menu.open li a .icon {
+  display: block; /* Show icons when menu is open */
+}
+
+/* Menu button styles */
+.menu-button {
   position: absolute;
-  top: 0.75rem;
-  right: 0.5rem;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 2.25rem;
-  height: 2rem;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgb(71, 18, 18);
+  border: none;
+  cursor: pointer;
+  outline: none;
 }
 
-nav .menu span {
-height: 0.4rem;
-width: 100%;
-background-color: white;
-border-radius: 0.2rem;
 
-}
-@media (max-width: 480px){
-  nav .menu{
-    display: flex;
-  }
-  nav {
-    flex-direction: column;
-    align-items: start;
-  }
-  nav ul {
-    display: none;
-    flex-direction: column;
-    width: 100%;
-    margin-bottom: 0.25rem;
-  }
-  nav ul.open{
-    display: flex;
-  }
-  nav ul li{
-    width: 100%;
-    text-align: center;
-  }
-  nav ul li a{
-    margin: 0.2rem 0.5rem;
+
+
+
+
+
+/* Media queries for smaller screens */
+@media (max-width: 768px) {
+
+  
+  .side-nav {
+    width: 30%;
   }
 
+  .menu.open {
+    display: block;
+  }
+
+  .menu li a .icon {
+    /* Adapt these styles to your chosen icon library/styles */
+    background-color: #fff;
+    border-radius: 50%;
+    fill: #333; /* Cream */
+    display: inline-block;
+  }
+  .menu li a span {
+    display: none; /* Hide text initially */
+  }
 }
+
+/* Placeholder icon styles (replace with your actual icons) */
+.icon {
+  content: '';
+  display: inline-block; /* Allow spacing next to text */
+  margin-right: 10px; /* Add some space after the icon */
+  font-size: 20px; /* Adjust size as needed */
+  color: #333;
+}
+
+.icon.home:before {
+  content: "\e001"; /* Font Awesome home icon */
+}
+
+.icon.sales-history:before {
+  content: "\e841"; /* Font Awesome history icon */
+}
+
+.icon.stock-record:before {
+  content: "\e87e"; /* Font Awesome archive icon */
+}
+
+.icon.stock-input:before {
+  content: "\e85d"; /* Font Awesome upload icon */
+}
+
+.icon.sign-in:before {
+  content: "\e740"; /* Font Awesome user icon */
+}
+

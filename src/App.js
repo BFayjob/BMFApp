@@ -1,31 +1,34 @@
-// App.js
-import React from 'react';
+import React, { useState } from 'react';
 import "./App.css";
 import { NavBar } from './components/NavBar/NavBar';
+import { Dashboard } from './components/Dashboard';
 import { Route, Routes } from 'react-router-dom';
-import { SalesForm } from './components/SalesForm/SalesForm';
-import {SalesRecord} from './components/SalesRecord/SalesRecord'; // Adjust the path based on your project structure
-import {StockRecord} from './components/SalesRecord/StockRecord';
-import {StockInput} from './components/SalesForm/StockInput';
-import {SignIn} from './components/SignIn/SignIn';
+import { SalesHistory } from './components/SalesRecord/SalesHistory'; // Adjust path
+import { StockRecord } from './components/SalesRecord/StockRecord';
+import { StockInput } from './components/SalesForm/StockInput';
+import { SignIn } from './components/SignIn/SignIn';
 
-const App = () => {
-  return( 
-    <div className='App'>
-      <NavBar />
-      <Routes>
-        <Route path='/' element={<SalesForm />} />
-        <Route path='/sales-record' element={<SalesRecord />} />
-        <Route path='/stock-record' element={<StockRecord />} />
-        <Route path='/stock-input' element={<StockInput />} />
-        <Route path='/signin' element={<SignIn />} />
+function App() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const toggleMenu = (isOpen = false) => {
+    setIsMenuOpen(isOpen);
+  };
 
-
-
-      </Routes>
+  return (
+    <div className="main-container">
+      <NavBar toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+      <div className="content-area">
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/sales-history" element={<SalesHistory />} />
+          <Route path="/stock-record" element={<StockRecord />} />
+          <Route path="/stock-input" element={<StockInput />} />
+          <Route path="/signin" element={<SignIn />} />
+        </Routes>
+      </div>
     </div>
   );
-};
+}
 
 export default App;

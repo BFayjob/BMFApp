@@ -58,7 +58,7 @@ const [useBothPayments, setUseBothPayments] = useState(false);
     Vital: ["2mm", "3mm", "4mm", "6mm", "9mm"],
     Aqualis: ["2mm", "3mm", "4mm"],
     Alpha: ["4mm", "6mm", "8mm"],
-    Ace: ["3mm", "4mm", "6mm", "8mm"],
+    Ace: ["3mm", "4mm", "6mm", "8mm"],//
   };
 
   useEffect(() => {
@@ -229,9 +229,9 @@ const [useBothPayments, setUseBothPayments] = useState(false);
   };
 
   return (
-    <div>
-      <section className="sales-form-section">
-        <h2>Sales Form</h2>
+    <div className="bg-cream text-army-green">
+     <section className="sales-form-section p-4 rounded-lg">
+       <h2 className="wrapper-title text-2xl font-bold mb-4 text-center">Sales Form</h2>
         {loading ? (
           <div className="text">Loading...</div>
         ) : (
@@ -310,9 +310,13 @@ const [useBothPayments, setUseBothPayments] = useState(false);
               />
             </label>
 
-            <button type="button" onClick={handleAddToCart}>
-              Add to Cart
-            </button>
+            <button
+  type="button"
+  onClick={handleAddToCart}
+  className="bg-army-green text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light hover:bg-army-green-dark"
+>
+  Add to Cart
+</button>
 
             {/* Display the list of items in the current order */}
             <div>
@@ -398,8 +402,9 @@ const [useBothPayments, setUseBothPayments] = useState(false);
 
             
 
-            <button type="submit">Submit Order</button>
-          </form>
+            <button type="submit" className="bg-army-green text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light hover:bg-army-green-dark">
+  Submit Order
+</button>          </form>
         )}
       </section>
     </div>

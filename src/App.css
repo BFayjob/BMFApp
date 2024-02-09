@@ -7,6 +7,19 @@
   pointer-events: none;
 }
 
+.main-container {
+  display: flex;
+  flex-direction: row; /* Content beside sidebar */
+  /* Add background color, padding, etc. as needed */
+}
+
+.content-area {
+  flex: 1; /* Take up remaining space */
+  padding: 20px; /* Adjust as needed */
+  /* ... other content styles */
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

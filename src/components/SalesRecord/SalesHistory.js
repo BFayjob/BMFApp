@@ -1,6 +1,10 @@
+// salesHistory.js
+
 import React, { useState, useEffect } from "react";
 
-export const SalesRecord = () => {
+const today = new Date().toISOString().slice(0, 10); // Get current date
+
+export const SalesHistory = ({ isDashboard, date }) => {
   const [salesRecords, setSalesRecords] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -13,6 +17,9 @@ export const SalesRecord = () => {
         // Simulate fetching sales records from the database
         const fetchedRecords = await fetchSalesRecordsFromDatabase();
 
+         // Filter records based on `isDashboard` and `date`
+         const filteredRecords = isDashboard ? fetchedRecords.filter((record) => record.date === today) : fetchedRecords;
+
         setSalesRecords(fetchedRecords);
       } catch (error) {
         console.error("Error fetching sales records:", error);
@@ -22,7 +29,7 @@ export const SalesRecord = () => {
     };
 
     fetchSalesRecords();
-  }, []);
+  }, [isDashboard, date]);
 
   const fetchSalesRecordsFromDatabase = async () => {
     // Simulate fetching sales records from a database
@@ -42,7 +49,6 @@ export const SalesRecord = () => {
         cashAmount: 80000,
         transferAmount: 0,
         useBothPayments: false,
-        date: "2024-01-06T12:30:00Z", // Replace with the actual date
         remarks: "Customer satisfied with the purchase.",
       },
       // Add more records as needed
@@ -56,7 +62,6 @@ export const SalesRecord = () => {
       <table>
         <thead>
           <tr>
-            <th>Customer Name</th>
             <th>Brand-Size</th>
             <th>Quantity</th>
             <th>Metric</th>
@@ -64,10 +69,10 @@ export const SalesRecord = () => {
             <th>Total Before Discount</th>
             <th>Discount (%)</th>
             <th>Discounted Total</th>
+            <th>Customer Name</th>
             <th>Cash Amount</th>
             <th>Transfer Amount</th>
             <th>Use Both Payments</th>
-            <th>Date</th>
             <th>Remarks</th>
           </tr>
         </thead>
@@ -81,7 +86,6 @@ export const SalesRecord = () => {
 
             return (
               <tr key={index}>
-                <td>{record.customerName}</td>
                 <td>
                   {record.items.map((item, itemIndex) => (
                     <div key={itemIndex}>{`${item.brand}-${item.size}`}</div>
@@ -105,10 +109,10 @@ export const SalesRecord = () => {
                 <td>₦{record.totalBeforeDiscount}</td>
                 <td>{record.discount}%</td>
                 <td>₦{discountedTotal}</td>
+                <td>{record.customerName}</td>
                 <td>₦{record.cashAmount}</td>
                 <td>₦{record.transferAmount}</td>
                 <td>{record.useBothPayments ? "Yes" : "No"}</td>
-                <td>{new Date(record.date).toLocaleString()}</td>
                 <td>{record.remarks}</td>
               </tr>
             );
@@ -119,17 +123,17 @@ export const SalesRecord = () => {
   };
 
   return (
-    <div>
-      <section className="sales-record-section">
-        <h2>Sales Records</h2>
-        {loading ? (
-          <div className="text">Loading...</div>
-        ) : (
-          <div>{renderSalesRecordsTable()}</div>
-        )}
-      </section>
+    <div className="sales-history-wrapper bg-cream p-4 rounded shadow-md">
+<h2 className="wrapper-title text-2xl font-bold mb-4 text-center">Sales History</h2>
+      {loading ? (
+        <div className="loading-text text-center">Loading...</div>
+      ) : (
+        <div className="sales-records-table">
+          {renderSalesRecordsTable()}
+        </div>
+      )}
     </div>
   );
 };
 
-export default SalesRecord;
+export default SalesHistory;
