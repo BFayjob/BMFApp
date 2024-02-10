@@ -16,7 +16,13 @@ function App() {
   };
 
   return (
-    <div className="main-container">
+    <div style={{
+      backgroundImage: `url(${require('./BMFBgImage.jpg')})`,
+      backgroundSize: 'contain',
+      backgroundPosition: 'center',
+      minHeight: '100vh' // Ensure full height
+    }}>
+      <div className="main-container">
       <NavBar toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
       <div className="content-area">
         <Routes>
@@ -28,6 +34,8 @@ function App() {
         </Routes>
       </div>
     </div>
+    </div>
+    
   );
 }
 

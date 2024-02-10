@@ -37,7 +37,7 @@ export const NavBar = () => {
       </Link>
 
       <button className="menu-button flex items-center justify-center focus:outline-none md:hidden" onClick={() => toggleMenu(!isMenuOpen)}>
-        <span className="block h-2 w-4 bg-slate-900 rounded-full"></span>
+        <span className="block h-2 w-4 bg-slate-900 rounded-full mt-1"></span>
         <span className="block h-2 w-4 bg-slate-900 rounded-full mt-1"></span>
         <span className="block h-2 w-4 bg-slate-900 rounded-full mt-1"></span>
       </button>

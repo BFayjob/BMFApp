@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./SalesForm.css";
+// import "./SalesForm.css";
 import { addDoc, salesRecordPath } from "../../firebase";
 
 
@@ -229,17 +229,17 @@ const [useBothPayments, setUseBothPayments] = useState(false);
   };
 
   return (
-    <div className="bg-cream text-army-green">
-     <section className="sales-form-section p-4 rounded-lg">
-       <h2 className="wrapper-title text-2xl font-bold mb-4 text-center">Sales Form</h2>
+    <div className="min-h-screen bg-cream flex flex-col justify-center items-center">
+     <section  className="max-w-md p-6 rounded-lg shadow-md bg-army-green-light text-army-green">
+       <h2 className="text-2xl font-bold text-center mb-4">Sales Form</h2>
         {loading ? (
           <div className="text">Loading...</div>
         ) : (
           <form onSubmit={handleSubmit}>
             {/* Existing form fields */}
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Brand:
-              <select value={brand} onChange={handleBrandChange}>
+              <select value={brand} onChange={handleBrandChange} className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green">
                 <option value="">Select Brand</option>
                 {brands.map((brandOption) => (
                   <option key={brandOption} value={brandOption}>
@@ -250,9 +250,9 @@ const [useBothPayments, setUseBothPayments] = useState(false);
             </label>
 
             {brand && (
-              <label>
+              <label className="block mb-2 font-medium text-sm">
                 Size:
-                <select value={size} onChange={handleSizeChange}>
+                <select value={size} onChange={handleSizeChange} className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green">
                   <option value="">Select Size</option>
                   {sizesByBrand[brand].map((sizeOption) => (
                     <option key={sizeOption} value={sizeOption}>
@@ -263,58 +263,60 @@ const [useBothPayments, setUseBothPayments] = useState(false);
               </label>
             )}
 
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Metric:
-              <select value={metric} onChange={handleMetricChange}>
+              <select value={metric} onChange={handleMetricChange} className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green">
                 <option value="Bag">Bag</option>
                 <option value="Kg">Kg</option>
                 <option value="HalfBag">HalfBag</option>
               </select>
             </label>
 
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Quantity:
               <input
                 type="number"
                 value={quantity}
                 onChange={handleQuantityChange}
                 required
+                className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
               />
             </label>
 
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Unit Price:
-              <input type="text" value={unitPrice} readOnly />
+              <input type="text" value={unitPrice} readOnly className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"/>
             </label>
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Total:
-              <input type="text" value={totalPrice} readOnly />
+              <input type="text" value={totalPrice} readOnly className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green" />
             </label>
 
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Remarks:
               <input
                 type="text"
                 value={remarks}
                 onChange={handleRemarksChange}
+                className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
                 placeholder="Enter remarks..."
               />
             </label>
 
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Discount (%):
               <input
                 type="number"
                 value={discount}
                 onChange={handleDiscountChange}
+                className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
               />
             </label>
 
             <button
   type="button"
   onClick={handleAddToCart}
-  className="bg-army-green text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light hover:bg-army-green-dark"
->
+  className="w-full py-2 px-4 bg-green-950 text-white font-bold rounded-md shadow-md hover:bg-army-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light">
   Add to Cart
 </button>
 
@@ -325,7 +327,7 @@ const [useBothPayments, setUseBothPayments] = useState(false);
                 {orderItems.map((item, index) => (
                   <li key={index}>
                     {item.brand} - {item.size} - {item.quantity}{' '}
-                    <button onClick={() => setOrderItems(orderItems.filter((_, i) => i !== index))}>
+                    <button onClick={() => setOrderItems(orderItems.filter((_, i) => i !== index))} className="w-full py-2 px-4 bg-green-950 text-white font-bold rounded-md shadow-md hover:bg-army-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light">
                       Remove Item
                     </button>
                   </li>
@@ -340,18 +342,19 @@ const [useBothPayments, setUseBothPayments] = useState(false);
             </div>
 
             {/* Additional input fields */}
-            <label>
+            <label className="block mb-2 font-medium text-sm">
               Customer Name:
               <input
                 type="text"
                 value={customerName}
                 onChange={handleCustomerNameChange}
+                className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
               />
             </label>
 
-            <label>
+            <label className="block mb-2 font-medium text-sm">
   Payment Method:
-  <select value={paymentMethod} onChange={handlePaymentMethodChange}>
+  <select value={paymentMethod} onChange={handlePaymentMethodChange} className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green">
     <option value="Cash">Cash</option>
     <option value="Bank Transfer">Bank Transfer</option>
     <option value="Both">Both</option>
@@ -360,12 +363,13 @@ const [useBothPayments, setUseBothPayments] = useState(false);
 
 {/* Input for Cash Amount */}
 {paymentMethod === "Cash" || paymentMethod === "Both" ? (
-  <label>
+  <label className="block mb-2 font-medium text-sm">
     Cash Amount (₦):
     <input
       type="number"
       value={cashAmount}
       onChange={handleCashAmountChange}
+      className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
       disabled={paymentMethod === "Both" && !useBothPayments}
     />
   </label>
@@ -373,12 +377,13 @@ const [useBothPayments, setUseBothPayments] = useState(false);
 
 {/* Input for Transfer Amount */}
 {paymentMethod === "Bank Transfer" || paymentMethod === "Both" ? (
-  <label>
+  <label className="block mb-2 font-medium text-sm">
     Transfer Amount (₦):
     <input
       type="number"
       value={transferAmount}
       onChange={handleTransferAmountChange}
+      className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
       disabled={paymentMethod === "Both" && !useBothPayments}
     />
   </label>
@@ -386,12 +391,13 @@ const [useBothPayments, setUseBothPayments] = useState(false);
 
 {/* Checkbox to indicate the use of both payments */}
 {paymentMethod === "Both" ? (
-  <label>
+  <label className="block mb-2 font-medium text-sm">
     Use both payments:
     <input
       type="checkbox"
       checked={useBothPayments}
       onChange={handleUseBothPaymentsChange}
+      className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
     />
   </label>
 ) : null}
@@ -402,7 +408,7 @@ const [useBothPayments, setUseBothPayments] = useState(false);
 
             
 
-            <button type="submit" className="bg-army-green text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light hover:bg-army-green-dark">
+            <button type="submit" className="w-full py-2 px-4 bg-green-950 text-white font-bold rounded-md shadow-md hover:bg-army-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light">
   Submit Order
 </button>          </form>
         )}
