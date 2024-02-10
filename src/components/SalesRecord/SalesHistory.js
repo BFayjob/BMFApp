@@ -126,13 +126,14 @@ export const SalesHistory = ({ isDashboard, date }) => {
       {loading ? (
         <div className="loading-text text-center">Loading...</div>
       ) : (
-        <div className="sales-records-table grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="sales-records-table grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-full overflow-x-auto">
           {/* Render table content here */}
           {renderSalesRecordsTable()}
         </div>
       )}
     </div>
   );
+  
 };
 
 export default SalesHistory;
