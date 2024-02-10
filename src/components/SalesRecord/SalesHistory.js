@@ -122,11 +122,12 @@ export const SalesHistory = ({ isDashboard, date }) => {
 
   return (
     <div className="sales-history-wrapper bg-cream p-4 rounded shadow-md">
-<h2 className="wrapper-title text-2xl font-bold mb-4 text-center">Sales History</h2>
+      <h2 className="wrapper-title text-2xl font-bold mb-4 text-center">Sales History</h2>
       {loading ? (
         <div className="loading-text text-center">Loading...</div>
       ) : (
-        <div className="sales-records-table">
+        <div className="sales-records-table grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Render table content here */}
           {renderSalesRecordsTable()}
         </div>
       )}
