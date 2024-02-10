@@ -1,6 +1,8 @@
 // salesHistory.js
 
 import React, { useState, useEffect } from "react";
+import { CSVLink } from 'react-csv';
+
 
 
 export const SalesHistory = ({ isDashboard, date }) => {
@@ -55,6 +57,22 @@ export const SalesHistory = ({ isDashboard, date }) => {
     return recordsFromDatabase;
   };
 
+  const formatDataForCSV = (selectedRecords) => {
+    const csvData = [
+      // Add headers for the CSV file
+      ['Date', 'Customer Name', 'Brand-Size', 'Quantity', 'Unit Price', 'Total Before Discount', 'Discount (%)', 'Discounted Total', 'Payment Method', 'Cash Amount', 'Transfer Amount', 'Remarks'],
+      ...selectedRecords.map((record) => [
+        record.date, // Assuming a `date` property in each record
+        record.customerName,
+        ...record.items.map((item) => `${item.brand}-${item.size}`).join(', '),
+        // ...other fields to include
+      ]),
+    ];
+  
+    return csvData;
+  };
+  
+
   const renderSalesRecordsTable = () => {
     return (
       <table>
@@ -84,34 +102,34 @@ export const SalesHistory = ({ isDashboard, date }) => {
 
             return (
               <tr key={index}>
-                <td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">
                   {record.items.map((item, itemIndex) => (
                     <div key={itemIndex}>{`${item.brand}-${item.size}`}</div>
                   ))}
                 </td>
-                <td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">
                   {record.items.map((item, itemIndex) => (
                     <div key={itemIndex}>{`${item.quantity}`}</div>
                   ))}
                 </td>
-                <td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">
                   {record.items.map((item, itemIndex) => (
                     <div key={itemIndex}>{`${item.metric}`}</div>
                   ))}
                 </td>
-                <td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">
                   {record.items.map((item, itemIndex) => (
                     <div key={itemIndex}>{`₦${item.unitPrice}`}</div>
                   ))}
                 </td>
-                <td>₦{record.totalBeforeDiscount}</td>
-                <td>{record.discount}%</td>
-                <td>₦{discountedTotal}</td>
-                <td>{record.customerName}</td>
-                <td>₦{record.cashAmount}</td>
-                <td>₦{record.transferAmount}</td>
-                <td>{record.useBothPayments ? "Yes" : "No"}</td>
-                <td>{record.remarks}</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">₦{record.totalBeforeDiscount}</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">{record.discount}%</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">₦{discountedTotal}</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">{record.customerName}</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">₦{record.cashAmount}</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">₦{record.transferAmount}</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">{record.useBothPayments ? "Yes" : "No"}</td>
+                <td className="sales-record-cell border border-gray-300 p-2 text-center">{record.remarks}</td>
               </tr>
             );
           })}
@@ -121,14 +139,21 @@ export const SalesHistory = ({ isDashboard, date }) => {
   };
 
   return (
-    <div className="sales-history-wrapper bg-cream p-4 rounded shadow-md">
+    <div className="sales-history-wrapper bg-cream p-4 rounded shadow-md  ">
       <h2 className="wrapper-title text-2xl font-bold mb-4 text-center">Sales History</h2>
       {loading ? (
         <div className="loading-text text-center">Loading...</div>
       ) : (
-        <div className="sales-records-table grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-full overflow-x-auto">
+        <div className="sales-records-table grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-full overflow-x-auto flex items-center justify-center">
           {/* Render table content here */}
           {renderSalesRecordsTable()}
+
+          <CSVLink
+  data={formatDataForCSV(salesRecords)} // Pass the formatted data
+  filename={`sales-history-${date}.csv`} className="w-1/10 py-2 px-4 bg-green-950 text-white font-bold rounded-md shadow-md hover:bg-army-green-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-light" // Customize filename with the selected date
+>
+  Download CSV
+</CSVLink>
         </div>
       )}
     </div>

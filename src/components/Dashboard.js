@@ -36,11 +36,11 @@ export const Dashboard = () => {
   return (
     <div className="dashboard-container flex flex-col h-screen">
       {/* Welcome Message */}
-      <WelcomeMessage username="BOLUWATIFE" className="mb-4 w-full bg-gray-200 p-4 text-center font-bold text-xl" />
+      <WelcomeMessage username="BOLUWATIFE" className="mt-4 w-full bg-gray-200 p-4 text-center font-bold text-xl" />
 
       {/* Available Stock and Sales Form (side-by-side) */}
       <div className="flex flex-row mb-4">
-        <div className="available-stock w-1/2 flex-grow mr-4 bg-gray-100 rounded shadow-md p-4">
+        <div className="available-stock w-1/2 flex-grow mr-4 bg-gray-100 rounded shadow-md p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-full overflow-x-auto">
           <AvailableStockTable data={stockRecords} />
         </div>
         <div className="sales-form w-1/2 flex-grow">

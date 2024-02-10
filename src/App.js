@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "./App.css";
 import { NavBar } from './components/NavBar/NavBar';
 import { Dashboard } from './components/Dashboard';
@@ -8,12 +8,8 @@ import { StockRecord } from './components/SalesRecord/StockRecord';
 import { StockInput } from './components/SalesForm/StockInput';
 import { SignIn } from './components/SignIn/SignIn';
 
-function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleMenu = (isOpen = false) => {
-    setIsMenuOpen(isOpen);
-  };
+const App = () => {
+  
 
   return (
     <div style={{
@@ -23,7 +19,7 @@ function App() {
       minHeight: '100vh' // Ensure full height
     }}>
       <div className="main-container">
-      <NavBar toggleMenu={toggleMenu} isMenuOpen={isMenuOpen} />
+      <NavBar />
       <div className="content-area">
         <Routes>
           <Route path="/" element={<Dashboard />} />
