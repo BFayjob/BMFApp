@@ -2,34 +2,50 @@
 
 import React, { useState, useEffect } from "react";
 import { CSVLink } from 'react-csv';
+import {DayPicker} from 'react-day-picker';
 
 
 
 export const SalesHistory = ({ isDashboard, date }) => {
   const [salesRecords, setSalesRecords] = useState([]);
+  const [ SelectedDates, setSelectedDates] = useState(null);
   const [loading, setLoading] = useState(false);
 
+
+  const fetchSalesRecords = async (startDate, endDate) => {
+    try {
+      setLoading(true);
+
+      // Simulate fetching sales records from the database
+      const fetchedRecords = await fetchSalesRecordsFromDatabase();
+
+       // Filter records based on `isDashboard` and `date`
+
+      setSalesRecords(fetchedRecords);
+    } catch (error) {
+      console.error("Error fetching sales records:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   useEffect(() => {
-    // Fetch sales records from the database or Firebase
-    const fetchSalesRecords = async () => {
-      try {
-        setLoading(true);
-
-        // Simulate fetching sales records from the database
-        const fetchedRecords = await fetchSalesRecordsFromDatabase();
-
-         // Filter records based on `isDashboard` and `date`
-
-        setSalesRecords(fetchedRecords);
-      } catch (error) {
-        console.error("Error fetching sales records:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSalesRecords();
+    // Fetch sales records only when necessary
+    if (!isDashboard && date) {
+      fetchSalesRecords(date.startDate, date.endDate);
+    }
+    // eslint-disable-next-line
   }, [isDashboard, date]);
+
+  const handleDateChange = (newDates) => {
+    setSelectedDates(newDates);
+    if (!isDashboard) {
+      fetchSalesRecords(newDates[0], newDates[newDates.length - 1]); // Use first and last dates
+    }
+  };
+
+  // Memoize formatDataForCSV to prevent unnecessary re-renders
 
   const fetchSalesRecordsFromDatabase = async () => {
     // Simulate fetching sales records from a database
@@ -94,6 +110,7 @@ export const SalesHistory = ({ isDashboard, date }) => {
     return csvData;
   };
   
+
   
   
 
@@ -162,15 +179,26 @@ export const SalesHistory = ({ isDashboard, date }) => {
     );
   };
 
+
+
   return (
     <div className="sales-history-wrapper bg-cream p-4 rounded shadow-md  ">
+       <DayPicker
+        selected={SelectedDates}
+        onDayClick={handleDateChange}
+        modifiers={{
+          selected: {
+            backgroundColor: 'lightblue',
+          },
+        }}
+      />
       <h2 className="wrapper-title text-2xl font-bold mb-4 text-center">Sales History</h2>
       {loading ? (
         <div className="loading-text text-center">Loading...</div>
       ) : (
         <div className="sales-records-table grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-full overflow-x-auto flex items-center justify-center">
           {/* Render table content here */}
-          {renderSalesRecordsTable()}
+          {renderSalesRecordsTable(salesRecords)}
 
           <CSVLink
   data={formatDataForCSV(salesRecords)} // Pass the formatted data
