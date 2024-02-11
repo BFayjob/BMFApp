@@ -60,17 +60,41 @@ export const SalesHistory = ({ isDashboard, date }) => {
   const formatDataForCSV = (selectedRecords) => {
     const csvData = [
       // Add headers for the CSV file
-      ['Date', 'Customer Name', 'Brand-Size', 'Quantity', 'Unit Price', 'Total Before Discount', 'Discount (%)', 'Discounted Total', 'Payment Method', 'Cash Amount', 'Transfer Amount', 'Remarks'],
-      ...selectedRecords.map((record) => [
-        record.date, // Assuming a `date` property in each record
-        record.customerName,
-        ...record.items.map((item) => `${item.brand}-${item.size}`).join(', '),
-        // ...other fields to include
-      ]),
+      ['Brand-Size', 'Quantity', 'Metric', 'Unit Price', 'Total Before Discount', 'Discount (%)', 'Discounted Total', 'Customer Name', 'Cash Amount', 'Transfer Amount', 'Use Both Payments', 'Remarks'],
+      ...selectedRecords.map((record) => {
+        // Separate cells for Brand and Size (assuming first item)
+        const firstItem = record.items[0]; // Assuming first item represents 'Brand-Size'
+  
+        // Iterate through items for individual values
+        const itemDetails = record.items.map((item) => [
+          item.quantity,
+          item.metric,
+          item.unitPrice,
+        ]);
+  
+        // Flatten item details into separate columns
+        return [
+          `${firstItem.brand}-${firstItem.size}`,
+          ...itemDetails.flat(),
+          record.totalBeforeDiscount,
+          record.discount,
+          // Calculate discounted total based on discount or use original value
+          record.discount > 0
+            ? record.totalBeforeDiscount * (1 - record.discount / 100)
+            : record.totalBeforeDiscount, // Use original if no discount
+          record.customerName,
+          record.cashAmount,
+          record.transferAmount,
+          record.useBothPayments ? 'Yes' : 'No',
+          record.remarks,
+        ];
+      }),
     ];
   
     return csvData;
   };
+  
+  
   
 
   const renderSalesRecordsTable = () => {
