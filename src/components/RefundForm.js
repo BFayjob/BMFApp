@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { addDoc, stockRecordPath, refundRecordPath } from "../../firebase";
-import "./SignIn.css"; // Make sure to create a corresponding CSS file
+import { addDoc, stockRecordPath, refundRecordPath } from "../firebase";
 
 const CustomerSearchDialog = ({ customerNameDatePairs, onSearch }) => {
   const [customerName, setCustomerName] = useState("");
@@ -36,7 +35,7 @@ const CustomerSearchDialog = ({ customerNameDatePairs, onSearch }) => {
   );
 };
 
-export const SignIn = () => {
+export const RefundForm = () => {
   const [customerNameDatePairs, setCustomerNameDatePairs] = useState([]);
   const [selectedCustomerNameDatePair] = useState(null);
   const [salesRecords, setSalesRecords] = useState([]);
@@ -244,4 +243,4 @@ export const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default RefundForm;

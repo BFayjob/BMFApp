@@ -6,7 +6,7 @@ import { Route, Routes } from 'react-router-dom';
 import { SalesHistory } from './components/SalesRecord/SalesHistory'; // Adjust path
 import { StockRecord } from './components/SalesRecord/StockRecord';
 import { StockInput } from './components/SalesForm/StockInput';
-import { SignIn } from './components/SignIn/SignIn';
+import { Refund } from './components/Refund';
 
 const App = () => {
   
@@ -26,7 +26,7 @@ const App = () => {
           <Route path="/sales-history" element={<SalesHistory />} />
           <Route path="/stock-record" element={<StockRecord />} />
           <Route path="/stock-input" element={<StockInput />} />
-          <Route path="/signin" element={<SignIn />} />
+          <Route path="/refund" element={<Refund />} />
         </Routes>
       </div>
     </div>

@@ -23,7 +23,7 @@ export const NavBar = () => {
           <NavLink to="/stock-input">Stock Input</NavLink>
         </li>
         <li>
-          <NavLink to="/signin">Sign In</NavLink>
+          <NavLink to="/Refund">Refund</NavLink>
         </li>
       </nav>
     </header>
