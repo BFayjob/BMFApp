@@ -155,27 +155,42 @@ export const SignIn = () => {
   };
 
   return (
-    <div>
-      <h2>Refund Form</h2>
-
+    <div className=" container mx-auto px-4 py-8 bg-gray-100">
+      <div className=" bg-cream-400 rounded-lg shadow-md">
+      <h2 className="text-2xl font-bold text-center text-army-green-500 mb-6">Refund Form</h2>
+  
       <CustomerSearchDialog
         customerNameDatePairs={customerNameDatePairs}
         onSearch={handleSearch}
+        className="mb-4" // Added class for spacing
       />
-
+  
       {selectedCustomerNameDatePair && (
         <div>
-          <h3>Sales Records for {selectedCustomerNameDatePair.customerName} on {new Date(selectedCustomerNameDatePair.date).toLocaleDateString()}</h3>
+          <h3>
+            Sales Records for {selectedCustomerNameDatePair.customerName} on{" "}
+            {new Date(selectedCustomerNameDatePair.date).toLocaleDateString()}
+          </h3>
+  
           {salesRecords.length > 0 ? (
-            <ul>
+            <ul className="list-disc ml-4">
               {salesRecords.map((record, index) => (
-                <li key={index}>
+                <li key={index} className="mb-4">
                   <p>Date: {new Date(record.date).toLocaleString()}</p>
-                  <ul>
+                  <ul className="list-disc ml-4">
                     {record.items.map((item, itemIndex) => (
-                      <li key={itemIndex}>
-                        Brand: {item.brand}, Size: {item.size}, Quantity: {item.quantity}, Metric: {item.metric}, Unit Price: ₦{item.unitPrice}, Total: ₦{item.total}
-                        <button type="button" onClick={() => handleAddToRefund(record, item)}>
+                      <li key={itemIndex} className="flex items-center justify-between mb-2">
+                        <div className="text-gray-700">
+                          Brand: {item.brand}, Size: {item.size}, Quantity: {item.quantity}, Metric: {item.metric}
+                        </div>
+                        <div className="text-army-green-500 font-bold">
+                          ₦{item.unitPrice} - Total: ₦{item.total}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => handleAddToRefund(record, item)}
+                          className="bg-green-900 text-white px-4 py-2 rounded-md hover:bg-army-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-700"
+                        >
                           Add to Refund
                         </button>
                       </li>
@@ -185,32 +200,46 @@ export const SignIn = () => {
               ))}
             </ul>
           ) : (
-            <p>No sales records found for the selected customer name and date.</p>
+            <p className="text-gray-700">No sales records found for the selected customer name and date.</p>
           )}
         </div>
       )}
-
-      <ul>
+  
+      <ul className="list-disc ml-4">
         {refundItems.map((item, index) => (
-          <li key={index}>
-            {item.brand}-{item.size}-{item.metric} - ₦{item.unitPrice} - Qty: {item.quantity} - Total: ₦{item.total}
-            <button type="button" onClick={() => handleRemoveFromRefund(index)}>
+          <li key={index} className="flex items-center justify-between mb-2">
+            <div className="text-gray-700">
+              {item.brand}-{item.size}-{item.metric} - ₦{item.unitPrice} - Qty: {item.quantity} - Total: ₦{item.total}
+            </div>
+            <button
+              type="button"
+              onClick={() => handleRemoveFromRefund(index)}
+              className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-700"
+            >
               Remove
             </button>
           </li>
         ))}
       </ul>
-
-      <label>
-        Refund Amount: ₦
+  
+      <div className="flex items-center mt-4">
+        <label className="mr-4 text-gray-700">Refund Amount: ₦</label>
         <input
           type="number"
           value={refundAmount}
           onChange={(e) => setRefundAmount(e.target.value)}
+          className="appearance-none rounded-md border border-army-green-300 px-3 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-500"
         />
-      </label>
-
-      <button type="submit" onClick={handleSubmit}>Process Refund</button>
+      </div>
+  
+      <button
+        type="submit"
+        onClick={handleSubmit}
+        className="bg-green-900 text-white px-4 py-2 rounded-md mt-4 hover:bg-army-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-700"
+      >
+        Process Refund
+      </button>
+    </div>
     </div>
   );
 };

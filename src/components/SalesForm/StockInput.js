@@ -98,16 +98,21 @@ export const StockInput = () => {
   };
 
   return (
-    <div>
+    <div className=" container mx-auto px-4 py-8 bg-gray-100">
+      <div className=" bg-cream-400 rounded-lg shadow-md p-4">
       <section className="sales-form-section">
-        <h2>Stock Input</h2>
+        <h2 className="text-2xl font-bold text-center text-army-green-500 mb-6">Stock Input</h2>
         {loading ? (
-          <div>Loading</div>
+          <div className="text-center">Loading</div>
         ) : (
-          <form onSubmit={handleSubmit}>
-            <label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <label className="block text-gray-700 font-medium mb-2">
               Brand:
-              <select value={brand} onChange={handleBrandChange}>
+              <select
+                value={brand}
+                onChange={handleBrandChange}
+                className="appearance-none rounded-md border border-army-green-300 px-3 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-500"
+              >
                 <option value="">Select Brand</option>
                 {brands.map((brandOption) => (
                   <option key={brandOption} value={brandOption}>
@@ -116,11 +121,15 @@ export const StockInput = () => {
                 ))}
               </select>
             </label>
-
+  
             {brand && (
-              <label>
+              <label className="block text-gray-700 font-medium mb-2">
                 Size:
-                <select value={size} onChange={handleSizeChange}>
+                <select
+                  value={size}
+                  onChange={handleSizeChange}
+                  className="appearance-none rounded-md border border-army-green-300 px-3 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-500"
+                >
                   <option value="">Select Size</option>
                   {sizesByBrand[brand].map((sizeOption) => (
                     <option key={sizeOption} value={sizeOption}>
@@ -130,32 +139,41 @@ export const StockInput = () => {
                 </select>
               </label>
             )}
-
-            <label>
+  
+            <label className="block text-gray-700 font-medium mb-2">
               Metric:
-              <select value={metric} onChange={handleMetricChange}>
+              <select
+                value={metric}
+                onChange={handleMetricChange}
+                className="appearance-none rounded-md border border-army-green-300 px-3 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-500"
+              >
                 <option value="Bag">Bag</option>
                 <option value="Kg">Kg</option>
                 <option value="HalfBag">HalfBag</option>
               </select>
             </label>
-
-            <label>
+  
+            <label className="block text-gray-700 font-medium mb-2">
               Quantity:
               <input
                 type="number"
                 value={quantity}
                 onChange={handleQuantityChange}
                 required
+                className="appearance-none rounded-md border border-army-green-300 px-3 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-500"
               />
             </label>
-
-            <button type="submit">Submit</button>
+  
+            <button type="submit" className="bg-green-900 text-white px-4 py-2 text-center rounded-md font-medium hover:bg-army-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-700">
+              Submit
+            </button>
           </form>
         )}
       </section>
     </div>
+    </div>
   );
+  
 };
 
 export default StockInput;

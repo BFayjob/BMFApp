@@ -47,28 +47,33 @@ export const StockRecord = () => {
   };
 
   return (
-    <div>
-      <h2>Stock Records</h2>
-      <label>Select Date: </label>
+    <div className="container mx-auto px-4 py-8 bg-gray-100 ">
+      <h2 className="text-2xl font-bold text-army-green-500 mb-4">Stock Records</h2>
+
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Select Date:
+      </label>
       <input
         type="date"
         value={selectedDate.toISOString().split('T')[0]}
         onChange={handleDateChange}
+        className="appearance-none rounded-md border border-army-green-300 px-3 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-500"
       />
 
       {loading ? (
         <div>Loading...</div>
       ) : (
-        <div className="flex">
-          <div>
-            <h3>Opening Stock Records</h3>
+        
+          <div className="flex flex-col md:flex-row gap-4 mt-4">
+          <div className="bg-cream-400 rounded-md shadow-md p-4">
+            <h3 className="text-xl font-bold text-army-green-500 mb-2">Opening Stock Records</h3>
             <table className="table">
               {/* Opening stock table structure */}
             </table>
           </div>
 
-          <div>
-            <h3>Closing Stock Records</h3>
+          <div className="bg-cream-400 rounded-md shadow-md p-4">
+            <h3 className="text-xl font-bold text-army-green-500 mb-2">Closing Stock Records</h3>
             <table className="table">
               {/* Closing stock table structure */}
             </table>
