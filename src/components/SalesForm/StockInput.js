@@ -1,6 +1,5 @@
 // StockInput.js
 import React, { useState } from "react";
-import { addDoc, stockRecordPath } from "../../firebase";
 
 export const StockInput = () => {
   const [brand, setBrand] = useState("");
@@ -81,13 +80,13 @@ export const StockInput = () => {
 
       setLoading(true);
 
-      await addDoc(stockRecordPath, {
-        brand,
-        size,
-        quantity,
-        metric,
-        date: new Date().toISOString(), // Use the current date
-      });
+      // await addDoc(stockRecordPath, {
+      //   brand,
+      //   size,
+      //   quantity,
+      //   metric,
+      //   date: new Date().toISOString(), // Use the current date
+      // });
 
       setBrand("");
       setSize("");

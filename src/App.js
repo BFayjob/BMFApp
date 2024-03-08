@@ -3,7 +3,7 @@ import "./App.css";
 import { NavBar } from './components/NavBar/NavBar';
 import { Dashboard } from './components/Dashboard';
 import { Route, Routes } from 'react-router-dom';
-import { SalesHistory } from './components/SalesRecord/SalesHistory'; // Adjust path
+import { SalesHistory } from './components/SalesRecord/SalesHistory.tsx'; // Adjust path
 import { StockRecord } from './components/SalesRecord/StockRecord';
 import { StockInput } from './components/SalesForm/StockInput';
 import { Refund } from './components/Refund';

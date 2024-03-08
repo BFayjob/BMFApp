@@ -1,7 +1,7 @@
 import React, { useState} from "react";
 import { WelcomeMessage } from "./WelcomeMessage"; // Adjust the import path
-import { SalesForm } from "./SalesForm/SalesForm";
-import { SalesHistory } from "./SalesRecord/SalesHistory.js"; // Adjust the path based on your project structure
+import SalesForm from "./SalesForm/SalesForm.tsx";
+import { SalesHistory } from "./SalesRecord/SalesHistory.tsx"; // Adjust the path based on your project structure
 import { AvailableStockTable } from "./AvailableStockTable.js"; // Adjust the path based on your project structure
 
 export const Dashboard = () => {
@@ -53,7 +53,7 @@ export const Dashboard = () => {
 
       {/* Sales History (spans full width) */}
       <div className="sales-history w-full flex-grow">
-        <SalesHistory isDashboard={true} />
+        <SalesHistory  />
       </div>
     </div>
   );
