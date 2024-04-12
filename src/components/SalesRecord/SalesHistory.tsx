@@ -9,7 +9,9 @@ import {
   SalesTransaction,
 } from "../../demo.ts";
 
-export const SalesHistory = ({date }) => {
+export const SalesHistory = ({ date }) => {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
   const [salesRecords, setSalesRecords] = useState<SalesTransaction[]>([]);
   // const [SelectedDates, setSelectedDates] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -36,7 +38,10 @@ export const SalesHistory = ({date }) => {
   }, []); // Empty dependency array ensures this useEffect runs only once on component mount
 
   // Memoize formatDataForCSV to prevent unnecessary re-renders
-
+  const handleDateChange = (e) => {
+    const selectedDate = new Date(e.target.value);
+    setSelectedDate(selectedDate);
+  };
   const formatDataForCSV = (selectedRecords: SalesTransaction[]) => {
     const csvData = [
       // Add headers for the CSV file
@@ -45,9 +50,7 @@ export const SalesHistory = ({date }) => {
         "Quantity",
         "Metric",
         "Unit Price",
-        "Total Before Discount",
-        "Discount (%)",
-        "Discounted Total",
+        "Total ",
         "Customer Name",
         "Cash Amount",
         "Transfer Amount",
@@ -72,10 +75,6 @@ export const SalesHistory = ({date }) => {
           ...itemDetails.flat(),
           record.totalBeforeDiscount,
           record.discount,
-          // Calculate discounted total based on discount or use original value
-          +record.discount > 0
-            ? +record.totalBeforeDiscount * (1 - +record.discount / 100)
-            : +record.totalBeforeDiscount, // Use original if no discount
           record.customerName,
           record.cashAmount,
           record.transferAmount,
@@ -97,9 +96,7 @@ export const SalesHistory = ({date }) => {
             <th>Quantity</th>
             <th>Metric</th>
             <th>Unit Price</th>
-            <th>Total Before Discount</th>
-            <th>Discount (%)</th>
-            <th>Discounted Total</th>
+            <th>Total</th>
             <th>Customer Name</th>
             <th>Cash Amount</th>
             <th>Transfer Amount</th>
@@ -109,13 +106,6 @@ export const SalesHistory = ({date }) => {
         </thead>
         <tbody>
           {salesRecords.map((record, index) => {
-            // Calculate discounted total
-            const discountedTotal =
-              parseInt(record.discount) > 0
-                ? +record.totalBeforeDiscount -
-                  (+record.totalBeforeDiscount * +record.discount) / 100
-                : record.totalBeforeDiscount;
-
             return (
               <tr key={index}>
                 <td className="sales-record-cell border border-gray-300 p-2 text-center">
@@ -141,12 +131,7 @@ export const SalesHistory = ({date }) => {
                 <td className="sales-record-cell border border-gray-300 p-2 text-center">
                   ₦{record.totalBeforeDiscount}
                 </td>
-                <td className="sales-record-cell border border-gray-300 p-2 text-center">
-                  {record.discount}%
-                </td>
-                <td className="sales-record-cell border border-gray-300 p-2 text-center">
-                  ₦{discountedTotal}
-                </td>
+
                 <td className="sales-record-cell border border-gray-300 p-2 text-center">
                   {record.customerName}
                 </td>
@@ -175,6 +160,17 @@ export const SalesHistory = ({date }) => {
       <h2 className="wrapper-title text-2xl font-bold mb-4 text-center">
         Sales History
       </h2>
+
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Select Date:
+      </label>
+      <input
+        type="date"
+        value={selectedDate.toISOString().split("T")[0]}
+        onChange={handleDateChange}
+        className="appearance-none rounded-md border border-army-green-300 px-3 py-2 text-base text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-army-green-500"
+      />
+
       {loading ? (
         <div className="loading-text text-center">Loading...</div>
       ) : (

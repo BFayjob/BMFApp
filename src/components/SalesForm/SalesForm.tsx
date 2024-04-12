@@ -12,11 +12,11 @@ interface OrderItem {
 
 const SalesForm: React.FC = () => {
   // console.log(parsedTransaction);
-  
+
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
   const [brand, setBrand] = useState<string>("");
   const [size, setSize] = useState<string>("");
-  const [quantity, setQuantity] = useState<string>("");
+  const [quantity, setQuantity] = useState<string>("0");
   const [metric, setMetric] = useState<string>("Bag");
   const [unitPrice, setUnitPrice] = useState<number>(0);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -113,7 +113,7 @@ const SalesForm: React.FC = () => {
 
   const handleMetricChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMetric(e.target.value);
-    setQuantity("");
+    setQuantity("0");
     fetchUnitPrice();
   };
 
@@ -134,10 +134,6 @@ const SalesForm: React.FC = () => {
     setRemarks(e.target.value);
   };
 
-  const handleDiscountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDiscount(parseFloat(e.target.value) || 0);
-  };
-
   const handleCustomerNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCustomerName(e.target.value);
   };
@@ -156,7 +152,7 @@ const SalesForm: React.FC = () => {
       ]);
       setBrand("");
       setSize("");
-      setQuantity("");
+      setQuantity("0");
       setMetric("Bag");
       setUnitPrice(0);
     } else {
@@ -233,7 +229,7 @@ const SalesForm: React.FC = () => {
         setOrderItems([]);
         setBrand("");
         setSize("");
-        setQuantity("");
+        setQuantity("0");
         setMetric("Bag");
         setUnitPrice(0);
         setTotalPrice(0);
@@ -317,9 +313,9 @@ const SalesForm: React.FC = () => {
             <label className="block mb-2 font-medium text-sm">
               Unit Price:
               <input
-                type="text"
+                type="number" // Use type="number" for numeric input
                 value={unitPrice}
-                readOnly
+                onChange={(e) => setUnitPrice(parseFloat(e.target.value))} // Update state on change
                 className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
               />
             </label>
@@ -340,15 +336,6 @@ const SalesForm: React.FC = () => {
                 onChange={handleRemarksChange}
                 className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
                 placeholder="Enter remarks..."
-              />
-            </label>
-            <label className="block mb-2 font-medium text-sm">
-              Discount (%):
-              <input
-                type="number"
-                value={discount}
-                onChange={handleDiscountChange}
-                className="w-full px-3 py-2 rounded-md border border-army-green-dark focus:border-2 focus:border-army-green"
               />
             </label>
             <button
@@ -378,7 +365,6 @@ const SalesForm: React.FC = () => {
             </div>
             <div>
               <h4>Total: ₦{calculateOrderTotal()}</h4>
-              <h4>Discounted Total: ₦{calculateDiscountedTotal()}</h4>
             </div>
             <label className="block mb-2 font-medium text-sm">
               Customer Name:
